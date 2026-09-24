@@ -13,7 +13,7 @@
 }
 
 .projectName {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-ink-muted);
   overflow-wrap: anywhere;
 }
@@ -25,7 +25,7 @@
   padding: 0 8px;
   display: inline-flex;
   align-items: center;
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -33,7 +33,7 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 34px;
+  font-size: 2.125rem;
   line-height: 1.15;
 }
 
@@ -98,11 +98,11 @@
 
 .name {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .inUse {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-accent);
 }
@@ -111,13 +111,13 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-success);
 }
 
 .detail {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-ink-muted);
 }
 

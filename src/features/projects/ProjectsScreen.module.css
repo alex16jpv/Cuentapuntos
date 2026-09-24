@@ -30,7 +30,7 @@
   align-items: center;
   gap: 6px;
   color: var(--color-ink-muted);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   text-decoration: none;
   border-radius: var(--radius-md);
@@ -40,7 +40,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-ink-muted);
 }
@@ -59,12 +59,12 @@
 
 .welcomeTitle {
   font-family: var(--font-serif);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 600;
 }
 
 .welcomeText {
-  font-size: 19px;
+  font-size: 1.1875rem;
   line-height: 1.45;
 }
 
@@ -78,14 +78,14 @@
   gap: 10px;
   color: var(--color-accent);
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
 .title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 34px;
+  font-size: 2.125rem;
   line-height: 1.15;
 }
 
@@ -121,7 +121,7 @@
 
 .name {
   font-family: var(--font-serif);
-  font-size: 23px;
+  font-size: 1.4375rem;
   font-weight: 600;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -129,18 +129,18 @@
 
 .percent {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 600;
   color: var(--color-accent);
 }
 
 .count {
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--color-ink-muted);
 }
 
 .cta {
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--color-accent);
 }
@@ -181,6 +181,6 @@
   }
 
   .title {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 }

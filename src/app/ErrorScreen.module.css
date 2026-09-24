@@ -11,12 +11,12 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 32px;
+  font-size: 2rem;
   line-height: 1.15;
 }
 
 .text {
-  font-size: 19px;
+  font-size: 1.1875rem;
   line-height: 1.4;
   color: var(--color-ink-muted);
 }

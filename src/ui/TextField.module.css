@@ -5,7 +5,7 @@
 }
 
 .label {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
@@ -15,14 +15,14 @@
 }
 
 .input {
-  height: 64px;
+  min-height: 64px;
   width: 100%;
   border-radius: var(--radius-md);
   border: 2px solid var(--color-border-input);
   background: var(--color-surface-raised);
   padding: 0 18px;
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--color-ink);
 }
 
@@ -41,7 +41,7 @@
 }
 
 .compact .label {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .compact {
@@ -49,21 +49,21 @@
 }
 
 .compact .input {
-  height: 60px;
+  min-height: 60px;
 }
 
 .hint {
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.4;
   color: var(--color-ink-muted);
 }
 
 .compact .hint {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .error {
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 600;
   color: var(--color-danger);
 }

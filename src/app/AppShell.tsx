@@ -3,8 +3,10 @@ import { UpdateBanner } from '@/pwa/UpdateBanner';
 import styles from './AppShell.module.css';
 import { BottomNav } from './BottomNav';
 import { ErrorToast } from './ErrorToast';
+import { useTextScaleSync } from './textScale';
 
 export function AppShell() {
+  useTextScaleSync();
   return (
     <div className={styles.shell}>
       <UpdateBanner />

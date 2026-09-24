@@ -21,22 +21,22 @@
 
 .md {
   min-height: 60px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .lg {
   min-height: 64px;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .control {
   min-height: 64px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .xl {
   min-height: 68px;
-  font-size: 21px;
+  font-size: 1.3125rem;
 }
 
 .primary,

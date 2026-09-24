@@ -3,6 +3,7 @@ import { CounterScreen } from '@/features/counter/CounterScreen';
 import { EditProjectScreen } from '@/features/projects/EditProjectScreen';
 import { NewProjectScreen } from '@/features/projects/NewProjectScreen';
 import { ProjectsScreen } from '@/features/projects/ProjectsScreen';
+import { SettingsScreen } from '@/features/settings/SettingsScreen';
 import { AddPartScreen } from '@/features/parts/AddPartScreen';
 import { EditPartScreen } from '@/features/parts/EditPartScreen';
 import { PartsScreen } from '@/features/parts/PartsScreen';
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
           { path: 'projects/:projectId/edit', element: <EditProjectScreen /> },
           { path: 'projects/:projectId/parts/new', element: <AddPartScreen /> },
           { path: 'parts/:partId/edit', element: <EditPartScreen /> },
+          { path: 'settings', element: <SettingsScreen /> },
         ],
       },
       { path: '*', element: <Navigate to="/" replace /> },

@@ -25,13 +25,13 @@
 }
 
 .eyebrow {
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--color-ink-muted);
 }
 
 .projectName {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -51,7 +51,7 @@
 
 .count {
   font-family: var(--font-serif);
-  font-size: clamp(64px, 11dvh, 96px);
+  font-size: clamp(4rem, 11dvh, 6rem);
   font-weight: 600;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -59,7 +59,7 @@
 }
 
 .caption {
-  font-size: 19px;
+  font-size: 1.1875rem;
   color: var(--color-ink-muted);
   text-align: center;
 }
@@ -69,7 +69,7 @@
 }
 
 .barNote {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-ink-muted);
 }
 
@@ -115,22 +115,22 @@
 
 .plus {
   font-family: var(--font-serif);
-  font-size: 72px;
+  font-size: 4.5rem;
   font-weight: 600;
   line-height: 1;
 }
 
 .tapHint {
-  font-size: 19px;
+  font-size: 1.1875rem;
 }
 
 .pausedTitle {
-  font-size: 21px;
+  font-size: 1.3125rem;
   font-weight: 700;
 }
 
 .pausedHint {
-  font-size: 17px;
+  font-size: 1.0625rem;
 }
 
 .finishRow {
@@ -147,21 +147,21 @@
 
 .rowLabel {
   font-family: var(--font-serif);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 600;
   color: var(--color-ink-muted);
 }
 
 .rowOf {
   font-family: var(--font-serif);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 600;
   color: var(--color-ink-muted);
 }
 
 .rowStitches {
   margin-top: 8px;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: var(--color-ink-muted);
 }
 
@@ -196,7 +196,7 @@
 
 .finishedTitle {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.2;
 }
@@ -212,7 +212,7 @@
   border: none;
   background: transparent;
   color: var(--color-on-accent);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -249,7 +249,7 @@
   }
 
   .count {
-    font-size: clamp(56px, 10dvh, 80px);
+    font-size: clamp(3.5rem, 10dvh, 5rem);
   }
 
   .bar {
@@ -261,7 +261,7 @@
   }
 
   .plus {
-    font-size: 56px;
+    font-size: 3.5rem;
   }
 }
 
@@ -316,11 +316,11 @@
   }
 
   .counter .count {
-    font-size: clamp(72px, 15dvh, 150px);
+    font-size: clamp(4.5rem, 15dvh, 9.375rem);
   }
 
   .counter .projectName {
-    font-size: 30px;
+    font-size: 1.875rem;
   }
 }
 
@@ -336,7 +336,7 @@
   }
 
   .counter .projectName {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .counter .current {
@@ -348,11 +348,11 @@
   }
 
   .counter .count {
-    font-size: clamp(48px, 14dvh, 72px);
+    font-size: clamp(3rem, 14dvh, 4.5rem);
   }
 
   .counter .plus {
-    font-size: 48px;
+    font-size: 3rem;
   }
 }
 
