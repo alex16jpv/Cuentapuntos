@@ -10,10 +10,25 @@
   gap: 32px;
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.technique {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
 .title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 34px;
+  font-size: 2.125rem;
   line-height: 1.15;
 }
 

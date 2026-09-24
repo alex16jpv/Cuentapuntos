@@ -3,11 +3,12 @@ import type { Id } from '@/domain/types';
 export const paths = {
   projects: '/',
   count: '/count',
-  threads: '/threads',
+  parts: '/parts',
+  settings: '/settings',
   newProject: '/projects/new',
   editProject: (projectId: Id) => `/projects/${projectId}/edit`,
-  newThread: (projectId: Id) => `/projects/${projectId}/threads/new`,
-  editThread: (threadId: Id) => `/threads/${threadId}/edit`,
+  newPart: (projectId: Id) => `/projects/${projectId}/parts/new`,
+  editPart: (partId: Id) => `/parts/${partId}/edit`,
 } as const;
 
 export interface ReturnState {

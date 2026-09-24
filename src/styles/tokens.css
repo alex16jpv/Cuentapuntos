@@ -5,16 +5,17 @@
   --color-ink: #2b2622;
   --color-ink-muted: #5a524b;
   --color-on-ink: #f4efe6;
-  --color-border: #e2d9cb;
-  --color-border-strong: #d8cdbc;
-  --color-border-input: #b9ac99;
-  --color-track: #e9e1d4;
+  --color-border: #cfc3b0;
+  --color-border-strong: #958875;
+  --color-border-input: #8f8272;
+  --color-track: #ddd3c4;
   --color-accent: #2f4a7a;
   --color-accent-hover: #1f355c;
   --color-on-accent: #ffffff;
   --color-tap: #2b2622;
   --color-tap-paused: #5e564f;
   --color-danger: #7a3527;
+  --color-success: #2e6b3f;
   --color-scrim: #2b262299;
   --color-swatch-edge: #0000002e;
 
@@ -30,7 +31,7 @@
   --app-max-width: 480px;
   --content-narrow: 640px;
   --content-wide: 1080px;
-  --rail-width: 112px;
+  --rail-width: 7rem;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);

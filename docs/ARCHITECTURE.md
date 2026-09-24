@@ -1,4 +1,4 @@
-# Architecture
+# Architecture — Cuentapuntos
 
 ## Stack
 
@@ -24,7 +24,7 @@ features/*  →  data/*  →  domain/*
 - `domain/` is pure and framework-free. Progress rules, number formatting and the palette live
   here and are unit-tested directly.
 - `data/` owns IndexedDB. Screens never touch Dexie tables; they call repository functions
-  (`createProject`, `bumpThread`, …) to write and hooks (`useWorkspace`, `useProjectSummaries`, …)
+  (`createProject`, `countStitch`, `completeRow`, …) to write and hooks (`useWorkspace`, `useProjectSummaries`, …)
   to read. Writes that touch several tables run in one transaction.
 - `features/` holds screens. Shared visual pieces go to `ui/`.
 - `app/paths.ts` is the only place that spells out URLs. Links that open a form pass
@@ -38,26 +38,72 @@ features/*  →  data/*  →  domain/*
 - The root route has a Spanish `errorElement` for failures during render, such as a live query
   throwing because IndexedDB is unavailable.
 
+## Audience
+
+The app is for an older person with little experience with technology. Every screen follows:
+
+- Text never below 16px at the default size; primary text 18–20px; buttons at least 60px tall.
+- One main action per screen, plain words, no gestures (no swipe, no long press).
+- Everything can be undone ("Quitar uno" also reopens the previous row) and deletions ask first.
+- A "Tamaño de la letra" setting (100%, 115%, 130%) scales every font size, since all font sizes
+  are in `rem`. Layout sizes stay in `px` and grow with `min-height`.
+
+## Techniques
+
+`src/domain/techniques.ts` holds one entry per technique: its wording (what a part is called, the
+verb, the row word), whether it uses the color palette, the name presets for pieces, and its
+counting mode. Screens read labels from there instead of hard-coding them.
+
+| Technique  | Parts are | Mode       | Notes                                                         |
+| ---------- | --------- | ---------- | ------------------------------------------------------------- |
+| embroidery | colors    | `stitches` | Palette + DMC code, optional stitches per color and project.  |
+| crochet    | pieces    | `rows`     | "Vuelta"; presets such as Cabeza, Brazo; "¿Cuántas iguales?". |
+| knitting   | pieces    | `rows`     | "Fila"; presets such as Delantero, Manga.                     |
+| other      | counters  | `stitches` | A "Contador" is created with the project.                     |
+
+To add a technique: add it to the `Technique` union in `src/domain/part.ts`, add its entry in
+`TECHNIQUES` and `TECHNIQUE_ORDER`, give it an icon in `src/ui/TechniqueIcon.tsx`, and a name
+example in `ProjectForm`. TypeScript points at anything else that needs a case.
+
 ## Data model
 
-- `projects`: `id`, `name`, `target` (optional total stitches), `activeThreadId`, timestamps.
-- `threads`: a color used in a project — `name`, `hex`, `code` (DMC, optional), `target`
-  (optional stitches for that color), `count`.
-- `preferences`: a single `app` row with `currentProjectId` and `paused`.
+- `projects`: `id`, `name`, `technique` (fixed at creation), `target` (stitches, only for
+  stitch-mode techniques), `activePartId`, timestamps.
+- `parts`: a color, piece or counter — `name`, `hex` (colors only), `code` (DMC, colors only),
+  `target` (stitches), `count`, `rowTarget` and `rowHistory` (rows mode).
+- `preferences`: a single `app` row with `currentProjectId`, `paused` and `textScale`.
+
+Pause is stored per project (`projects.paused`), so pausing one labor never locks another.
+
+In rows mode, `count` is the stitches of the current row and `rowHistory` stores the stitches
+of each finished row, so the current row number is `rowHistory.length + 1` and "Quitar uno" at
+zero stitches can reopen the previous row exactly as it was (the button then reads "Volver a la
+vuelta N"). A piece is finished when `rowHistory.length >= rowTarget`; an edit that finishes a
+piece clears the open row's stitches. Raising "vueltas terminadas" by hand adds rows with 0
+stitches, since the real counts are unknown. A second "Terminé la vuelta" within 1.2 s is
+ignored, and every finished row offers "Deshacer" for a few seconds. The pure rules live in `src/domain/part.ts`.
 
 IDs are UUIDs so a future backup/import or sync can merge data without collisions.
 
+### Schema
+
+One Dexie version so far (`cuentapuntos` database, v1). While the app is in development the
+schema may be reset; once it is in real use, every change must add a new Dexie version with an
+`.upgrade()` and a test that opens data written by the previous version.
+
 ### Progress rules
 
-- A project's target is its own `target` if set, otherwise the sum of its threads' targets.
-- The counter shows the color's own target when it has one; otherwise it shows the project's
-  progress, or no bar at all if nothing has a target.
+- Stitch mode: a project's target is its own `target` if set, otherwise the sum of its parts'
+  targets. The counter shows the part's own target when it has one, otherwise the project's.
+- Rows mode: a project's percent counts finished rows against the sum of every piece's
+  `rowTarget`; it is only shown when every piece has one. Cards show "N de M piezas terminadas".
 
-### Current project and color
+### Current project and part
 
-The "Contar" and "Hilos" tabs work on the _current project_ (`preferences.currentProjectId`,
-falling back to the most recently updated project). Each project remembers its active color.
-Opening a project or picking a color only changes these pointers.
+The "Contar" and third tabs work on the _current project_ (`preferences.currentProjectId`,
+falling back to the most recently updated project). Each project remembers its active part.
+The third tab's label follows the technique (Colores, Piezas or Contadores); it is hidden until
+there is a project.
 
 ## Offline and updates
 
@@ -83,7 +129,7 @@ landscape get the wide layout too.
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Not wide                       | The design as-is: one column, bottom tab bar.                                                                                                                                                     |
 | Wide                           | Side navigation rail; content centered in a readable column (`--content-narrow` for forms, `--content-wide` for grids); cards in grids; sheets become centered dialogs; form actions align right. |
-| ≥ 1024px, or landscape ≥ 600px | Counter in two columns: project, color and count on the left; the tap area and controls on the right.                                                                                             |
+| ≥ 1024px, or landscape ≥ 600px | Counter in two columns: project, part and count on the left; the tap area and controls on the right.                                                                                              |
 | Short screens (≤ 740px tall)   | Compact counter so the controls stay visible; landscape ≤ 600px tall compacts the rail and headers further.                                                                                       |
 
 - CSS media queries repeat these conditions; `WIDE_SCREEN` in `src/ui/useMediaQuery.ts` is the copy
@@ -99,15 +145,9 @@ The source design is in `docs/design/`. `Mi Bastidor.html` is the original bundl
 has each screen as readable HTML. Colors, radii and fonts from the design are in
 `src/styles/tokens.css` — use tokens, not literal colors, in new CSS.
 
-Additions not in the design, agreed with the product owner:
-
-- Optional per-color target in "Añadir un color".
-- "Editar proyecto" (from the "Editar" link in Hilos) and "Editar color" (pencil in each color
-  card), both with delete behind a confirmation sheet.
-- Empty states for no projects and for a project without colors.
-- A compact counter layout for short screens (≤ 740px tall).
-- The thread-code field uses a full keyboard (the design had a number pad), because DMC codes
-  include letters, such as `B5200` or `ECRU`.
+v1 followed that design. v2 (multi-technique) was designed in-house following the same visual
+language; the reference screenshots are in `docs/design/v2/`, and each decision is logged in
+`docs/work/v2-plan.md`.
 
 ## Extending
 
@@ -117,5 +157,6 @@ Additions not in the design, agreed with the product owner:
   with an `.upgrade()` if existing rows need a default. Never edit a released version.
 - **New write:** add a repository function in `data/`, wrap multi-table writes in
   `db.transaction`, and cover it in `data/repository.test.ts`.
-- **Tests:** UI flows live in `src/app/flows.test.tsx` and render the real route table on a
+- **Tests:** UI flows live in `src/app/flows/*.test.tsx` (one file per technique or concern,
+  helpers in `src/test/seed.ts`) and render the real route table on a
   memory router against fake IndexedDB.

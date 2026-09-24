@@ -15,11 +15,11 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 32px;
+  font-size: 2rem;
 }
 
 .message {
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.4;
 }
 

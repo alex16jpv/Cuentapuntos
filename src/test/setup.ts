@@ -29,5 +29,7 @@ beforeEach(async () => {
 afterEach(async () => {
   cleanup();
   vi.unstubAllGlobals();
+  document.documentElement.style.fontSize = '';
+  localStorage.clear();
   await db.delete();
 });

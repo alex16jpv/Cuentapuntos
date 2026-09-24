@@ -1,7 +1,7 @@
 {
-  "name": "mi-bastidor",
+  "name": "cuentapuntos",
   "version": "0.1.0",
-  "description": "Offline-first PWA to count embroidery stitches per thread color.",
+  "description": "Offline-first PWA to count stitches, rows and colors for embroidery, crochet and knitting.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

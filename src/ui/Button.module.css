@@ -21,22 +21,22 @@
 
 .md {
   min-height: 60px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .lg {
   min-height: 64px;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .control {
   min-height: 64px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .xl {
   min-height: 68px;
-  font-size: 21px;
+  font-size: 1.3125rem;
 }
 
 .primary,
@@ -44,6 +44,20 @@
   border: none;
   background: var(--color-ink);
   color: var(--color-on-ink);
+}
+
+.accent,
+.accent:hover {
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.onDark,
+.onDark:hover {
+  border: none;
+  background: var(--color-on-ink);
+  color: var(--color-ink);
 }
 
 .secondary,
@@ -79,4 +93,11 @@
   border: none;
   background: var(--color-danger);
   color: var(--color-on-accent);
+}
+
+.button:disabled,
+.button:disabled:hover {
+  border: 2px dashed var(--color-border-strong);
+  background: transparent;
+  color: var(--color-ink-muted);
 }

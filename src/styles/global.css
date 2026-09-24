@@ -9,6 +9,8 @@
 }
 
 html {
+  background: var(--color-bg);
+  font-size: 100%;
   color-scheme: light;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -17,10 +19,13 @@ html {
 html,
 body {
   margin: 0;
+}
+
+body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   font-optical-sizing: auto;

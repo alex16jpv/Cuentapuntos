@@ -25,13 +25,13 @@
 }
 
 .eyebrow {
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--color-ink-muted);
 }
 
 .projectName {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 600;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -51,7 +51,7 @@
 
 .count {
   font-family: var(--font-serif);
-  font-size: clamp(64px, 11dvh, 96px);
+  font-size: clamp(4rem, 11dvh, 6rem);
   font-weight: 600;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -59,7 +59,7 @@
 }
 
 .caption {
-  font-size: 19px;
+  font-size: 1.1875rem;
   color: var(--color-ink-muted);
   text-align: center;
 }
@@ -69,11 +69,13 @@
 }
 
 .barNote {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-ink-muted);
 }
 
 .tapArea {
+  container: tap / inline-size;
+  position: relative;
   padding: 10px 16px;
   flex-grow: 1;
   min-height: 160px;
@@ -115,22 +117,203 @@
 
 .plus {
   font-family: var(--font-serif);
-  font-size: 72px;
+  font-size: 4.5rem;
   font-weight: 600;
   line-height: 1;
 }
 
 .tapHint {
-  font-size: 19px;
+  font-size: 1.1875rem;
 }
 
 .pausedTitle {
-  font-size: 21px;
+  font-size: 1.3125rem;
   font-weight: 700;
 }
 
 .pausedHint {
-  font-size: 17px;
+  font-size: 1.0625rem;
+}
+
+.finishRow {
+  padding: 14px 16px 12px;
+}
+
+.tapCount {
+  font-size: 1.375rem;
+  text-align: center;
+}
+
+.tapCount strong {
+  display: inline-block;
+  font-size: 1.75rem;
+}
+
+.pulse {
+  display: inline-block;
+  animation: pulse 220ms ease-out;
+}
+
+.nudge {
+  display: inline-block;
+  animation: nudge 360ms ease-out;
+}
+
+.notice {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  min-height: 56px;
+  padding: 6px 6px 6px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px #2b262240;
+}
+
+.notice > svg {
+  flex-shrink: 0;
+  color: var(--color-success);
+}
+
+.noticeText {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.noticeUndo {
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.completed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--color-success);
+  text-align: center;
+}
+
+@container tap (max-width: 320px) {
+  .notice > svg {
+    display: none;
+  }
+
+  .noticeText {
+    font-size: 0.9375rem;
+  }
+
+  .noticeUndo {
+    padding: 0 8px;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes nudge {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .nudge {
+    animation: none;
+  }
+}
+
+.rowLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 12px;
+}
+
+.rowLabel {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.rowOf {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.finished {
+  flex-grow: 1;
+  border-radius: var(--radius-2xl);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.finishedIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-on-accent);
+  color: var(--color-accent);
+}
+
+.finishedTitle {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.finished > a,
+.finished > button:not(.moreRows) {
+  width: min(100%, 360px);
+}
+
+.moreRows {
+  min-height: 48px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-on-accent);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .controls {
@@ -138,6 +321,10 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.single {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .lock[aria-pressed='true'],
@@ -164,19 +351,91 @@
   }
 
   .count {
-    font-size: clamp(56px, 10dvh, 80px);
+    font-size: clamp(3.5rem, 10dvh, 5rem);
   }
 
   .bar {
     margin-top: 6px;
   }
 
+  .plus {
+    font-size: 2.75rem;
+  }
+
+  .eyebrow {
+    display: none;
+  }
+
+  .current {
+    padding-top: 8px;
+  }
+
+  .rowLabel,
+  .rowOf {
+    font-size: 1.5rem;
+  }
+
   .tapArea {
-    min-height: 120px;
+    min-height: 88px;
+    padding-block: 8px;
+  }
+
+  .tapHint {
+    font-size: 1.0625rem;
+  }
+
+  .finishRow,
+  .controls {
+    padding-bottom: 8px;
+  }
+
+  .finishRow {
+    padding-top: 8px;
+  }
+
+  .projectName {
+    font-size: 1.375rem;
+  }
+
+  .tapCount {
+    font-size: 1.0625rem;
+  }
+
+  .tapCount strong {
+    font-size: 1.25rem;
+  }
+
+  .tap {
+    gap: 4px;
+  }
+}
+
+@media (max-height: 600px) {
+  .count {
+    font-size: clamp(2.75rem, 10dvh, 4rem);
+  }
+
+  .rowSuffix {
+    display: none;
+  }
+
+  .tapArea {
+    min-height: 72px;
+    padding-block: 4px;
   }
 
   .plus {
-    font-size: 56px;
+    font-size: 2.25rem;
+  }
+
+  .tap {
+    gap: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .controls svg {
+    display: none;
   }
 }
 
@@ -231,11 +490,11 @@
   }
 
   .counter .count {
-    font-size: clamp(72px, 15dvh, 150px);
+    font-size: clamp(4.5rem, 15dvh, 9.375rem);
   }
 
   .counter .projectName {
-    font-size: 30px;
+    font-size: 1.875rem;
   }
 }
 
@@ -251,7 +510,7 @@
   }
 
   .counter .projectName {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .counter .current {
@@ -263,11 +522,11 @@
   }
 
   .counter .count {
-    font-size: clamp(48px, 14dvh, 72px);
+    font-size: clamp(3rem, 14dvh, 4.5rem);
   }
 
   .counter .plus {
-    font-size: 48px;
+    font-size: 3rem;
   }
 }
 

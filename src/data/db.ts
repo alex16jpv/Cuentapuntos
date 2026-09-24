@@ -1,22 +1,23 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { Preferences, Project, Thread } from '@/domain/types';
+import type { Part } from '@/domain/part';
+import type { Preferences, Project } from '@/domain/types';
 
-export class BastidorDB extends Dexie {
+export class AppDatabase extends Dexie {
   projects!: EntityTable<Project, 'id'>;
-  threads!: EntityTable<Thread, 'id'>;
+  parts!: EntityTable<Part, 'id'>;
   preferences!: EntityTable<Preferences, 'id'>;
 
-  constructor(name = 'mi-bastidor') {
+  constructor(name = 'cuentapuntos') {
     super(name);
     this.version(1).stores({
       projects: 'id, updatedAt',
-      threads: 'id, projectId, [projectId+createdAt]',
+      parts: 'id, projectId, [projectId+createdAt]',
       preferences: 'id',
     });
   }
 }
 
-export const db = new BastidorDB();
+export const db = new AppDatabase();
 
 export async function requestPersistentStorage(): Promise<boolean> {
   if (!navigator.storage?.persist) return false;
