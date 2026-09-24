@@ -65,7 +65,7 @@ Out of scope: backup (next recommended feature).
   - [x] F12 Cleanup: remove partPercent, single capitalize, techniqueOf in UI, text-size samples
         in px, lighter BottomNav query, prefs read once, docs path
   - [x] F13 Tests for all of the above plus migration edge cases and startup text scale
-- [ ] T13 Final report: decisions list, how to test
+- [x] T13 Final report: decisions list, how to test
 
 Notes: T3–T8 landed together in one commit (`v2(T3-T8)`) because the data switch breaks the
 old UI; the Settings link on Proyectos points to `/settings`, which T9 creates.
