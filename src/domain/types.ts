@@ -10,6 +10,7 @@ export interface Project {
   technique: Technique;
   target: number | null;
   activePartId: Id | null;
+  paused: boolean;
   createdAt: number;
   updatedAt: number;
 }
@@ -17,6 +18,5 @@ export interface Project {
 export interface Preferences {
   id: 'app';
   currentProjectId: Id | null;
-  paused: boolean;
   textScale: TextScale;
 }

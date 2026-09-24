@@ -21,6 +21,7 @@ export interface PartInput {
 export type PartChanges = Partial<PartInput & { count: number; rowsDone: number }>;
 
 export async function addParts(projectId: Id, inputs: readonly PartInput[]): Promise<Id[]> {
+  if (inputs.length === 0) return [];
   const ids = inputs.map(() => crypto.randomUUID());
   await db.transaction('rw', db.parts, db.projects, async () => {
     const now = Date.now();
@@ -57,6 +58,7 @@ export async function updatePart(id: Id, changes: PartChanges): Promise<void> {
     if (fields.name !== undefined) update.name = fields.name.trim();
     if (count !== undefined) update.count = Math.max(0, count);
     if (rowsDone !== undefined) update.rowHistory = resizeHistory(part.rowHistory, rowsDone);
+    if (isFinished({ ...part, ...update })) update.count = 0;
     await db.parts.update(id, update);
     await db.projects.update(part.projectId, { updatedAt: Date.now() });
   });
@@ -121,12 +123,13 @@ export function completeRow(id: Id): Promise<void> {
 }
 
 export async function addRowToTarget(id: Id): Promise<void> {
-  await db.transaction('rw', db.parts, async () => {
+  await db.transaction('rw', db.parts, db.projects, async () => {
     const part = await db.parts.get(id);
-    if (part)
-      await db.parts.update(id, {
-        rowTarget: Math.max(part.rowTarget ?? 0, part.rowHistory.length) + 1,
-      });
+    if (!part) return;
+    await db.parts.update(id, {
+      rowTarget: Math.max(part.rowTarget ?? 0, part.rowHistory.length) + 1,
+    });
+    await db.projects.update(part.projectId, { updatedAt: Date.now() });
   });
 }
 

@@ -40,14 +40,14 @@ describe('editing', () => {
     await seedEmbroidery();
     const { user } = renderApp('/parts');
 
-    await user.click(await screen.findByRole('link', { name: /Editar proyecto/ }));
+    await user.click(await screen.findByRole('link', { name: /Cambiar nombre o borrar proyecto/ }));
     const name = await screen.findByLabelText('¿Cómo se llama?');
     await user.clear(name);
     await user.type(name, 'Jardín de primavera');
     await user.click(screen.getByRole('button', { name: 'Guardar cambios' }));
     expect(await screen.findByText('Jardín de primavera')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('link', { name: /Editar proyecto/ }));
+    await user.click(screen.getByRole('link', { name: /Cambiar nombre o borrar proyecto/ }));
     await user.click(await screen.findByRole('button', { name: 'Borrar proyecto' }));
     await user.click(await screen.findByRole('button', { name: 'Sí, borrar' }));
 

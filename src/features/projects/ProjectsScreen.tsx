@@ -72,6 +72,9 @@ function Welcome() {
         Aquí puedes llevar la cuenta de tus labores: puntos, vueltas y colores.
       </p>
       <p className={styles.welcomeText}>Todo se guarda en este aparato y funciona sin internet.</p>
+      <p className={styles.welcomeText}>
+        Para empezar, toca el botón de abajo y elige qué vas a hacer.
+      </p>
       <ButtonLink to={paths.newProject} variant="primary" size="xl">
         <PlusIcon size={24} />
         Crear mi primer proyecto

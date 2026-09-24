@@ -73,10 +73,15 @@ example in `ProjectForm`. TypeScript points at anything else that needs a case.
   `target` (stitches), `count`, `rowTarget` and `rowHistory` (rows mode).
 - `preferences`: a single `app` row with `currentProjectId`, `paused` and `textScale`.
 
+Pause is stored per project (`projects.paused`, Dexie v4), so pausing one labor never locks another.
+
 In rows mode, `count` is the stitches of the current row and `rowHistory` stores the stitches
 of each finished row, so the current row number is `rowHistory.length + 1` and "Quitar uno" at
-zero stitches can reopen the previous row exactly as it was. A piece is finished when
-`rowHistory.length >= rowTarget`. The pure rules live in `src/domain/part.ts`.
+zero stitches can reopen the previous row exactly as it was (the button then reads "Volver a la
+vuelta N"). A piece is finished when `rowHistory.length >= rowTarget`; an edit that finishes a
+piece clears the open row's stitches. Raising "vueltas terminadas" by hand adds rows with 0
+stitches, since the real counts are unknown. A second "Terminé la vuelta" within 1.2 s is
+ignored, and every finished row offers "Deshacer" for a few seconds. The pure rules live in `src/domain/part.ts`.
 
 IDs are UUIDs so a future backup/import or sync can merge data without collisions.
 
@@ -85,6 +90,7 @@ IDs are UUIDs so a future backup/import or sync can merge data without collision
 - v1: `projects`, `threads` (colors), `preferences`.
 - v2: adds `parts` and copies every thread into it; projects become `embroidery`.
 - v3: drops `threads`.
+- v4: moves `paused` from preferences to each project.
 
 The IndexedDB database keeps its original name (`mi-bastidor`) so installs made before the
 rename keep their data. `src/data/repository.test.ts` covers the v1 → v3 upgrade.
@@ -100,7 +106,8 @@ rename keep their data. `src/data/repository.test.ts` covers the v1 → v3 upgra
 
 The "Contar" and third tabs work on the _current project_ (`preferences.currentProjectId`,
 falling back to the most recently updated project). Each project remembers its active part.
-The third tab's label follows the technique: Colores, Piezas or Contadores.
+The third tab's label follows the technique (Colores, Piezas or Contadores); it is hidden until
+there is a project.
 
 ## Offline and updates
 
@@ -154,5 +161,6 @@ language; the reference screenshots are in `docs/design/v2/`, and each decision 
   with an `.upgrade()` if existing rows need a default. Never edit a released version.
 - **New write:** add a repository function in `data/`, wrap multi-table writes in
   `db.transaction`, and cover it in `data/repository.test.ts`.
-- **Tests:** UI flows live in `src/app/flows.test.tsx` and render the real route table on a
+- **Tests:** UI flows live in `src/app/flows/*.test.tsx` (one file per technique or concern,
+  helpers in `src/test/seed.ts`) and render the real route table on a
   memory router against fake IndexedDB.

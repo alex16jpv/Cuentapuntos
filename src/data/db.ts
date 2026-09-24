@@ -29,6 +29,7 @@ export class BastidorDB extends Dexie {
       .stores({ parts: 'id, projectId, [projectId+createdAt]' })
       .upgrade(migrateThreadsToParts);
     this.version(3).stores({ threads: null });
+    this.version(4).stores({}).upgrade(movePauseToProjects);
   }
 }
 
@@ -62,6 +63,19 @@ async function migrateThreadsToParts(tx: Transaction): Promise<void> {
     .modify((p: Record<string, unknown>) => {
       p.textScale = 'normal';
     });
+}
+
+async function movePauseToProjects(tx: Transaction): Promise<void> {
+  const prefs: Record<string, unknown> | undefined = await tx.table('preferences').get('app');
+  await tx
+    .table('projects')
+    .toCollection()
+    .modify((p: Record<string, unknown>) => {
+      p.paused = prefs?.paused === true && prefs.currentProjectId === p.id;
+    });
+  if (prefs) {
+    await tx.table('preferences').update('app', { paused: undefined });
+  }
 }
 
 export const db = new BastidorDB();

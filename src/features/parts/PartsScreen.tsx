@@ -42,16 +42,7 @@ export function PartsScreen() {
   return (
     <Screen width="wide">
       <header className={styles.header}>
-        <div className={styles.projectLine}>
-          <p className={styles.projectName}>{project.name}</p>
-          <Link
-            to={paths.editProject(project.id)}
-            className={styles.editProject}
-            aria-label={`Editar proyecto ${project.name}`}
-          >
-            Editar
-          </Link>
-        </div>
+        <p className={styles.projectName}>{project.name}</p>
         <h1 className={styles.title}>{technique.part.tab}</h1>
       </header>
       <div className={styles.list}>
@@ -76,6 +67,15 @@ export function PartsScreen() {
         >
           <PlusIcon size={22} />
           {technique.part.add}
+        </ButtonLink>
+        <ButtonLink
+          to={paths.editProject(project.id)}
+          variant="secondary"
+          size="md"
+          className={styles.editProject}
+        >
+          <PencilIcon size={22} />
+          Cambiar nombre o borrar proyecto
         </ButtonLink>
       </div>
     </Screen>

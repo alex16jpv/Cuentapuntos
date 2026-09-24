@@ -43,28 +43,28 @@ Out of scope: backup (next recommended feature).
 - [x] T12 Reviews in parallel: task review (unbiased), code quality review, UX review for the
       target audience; apply fixes
 - [ ] T12-fixes (from the three reviews; tick each as it lands)
-  - [ ] F1 Long part names overlap "Cambiar"; tab labels overflow rail/bottom bar at large text
-  - [ ] F2 Double tap on "Terminé la vuelta" finishes two rows: ignore repeat taps, show
+  - [x] F1 Long part names overlap "Cambiar"; tab labels overflow rail/bottom bar at large text
+  - [x] F2 Double tap on "Terminé la vuelta" finishes two rows: ignore repeat taps, show
         "Vuelta N terminada · Deshacer" for a few seconds
-  - [ ] F3 Rows counter: stitches of the row shown big inside the tap area with a pulse on each tap;
+  - [x] F3 Rows counter: stitches of the row shown big inside the tap area with a pulse on each tap;
         24px gap before "Terminé la vuelta"; "Quitar uno" at 0 says "Volver a la vuelta N"
-  - [ ] F4 Stitch mode: show "¡Completado!" when a color/counter reaches its target (non-blocking)
-  - [ ] F5 Part forms: button inline after the questions (not fixed); edit puts the correction
+  - [x] F4 Stitch mode: show "¡Completado!" when a color/counter reaches its target (non-blocking)
+  - [x] F5 Part forms: button inline after the questions (not fixed); edit puts the correction
         field first; hide "¿Cuántas iguales?" for "Todo es una pieza"
-  - [ ] F6 Icons: Proyectos (folder), Contar (tally marks), Bordado (hoop and needle),
+  - [x] F6 Icons: Proyectos (folder), Contar (tally marks), Bordado (hoop and needle),
         Otra cosa (sewing button)
-  - [ ] F7 Edit project: large "Cambiar nombre o borrar proyecto" button at the end of the parts
+  - [x] F7 Edit project: large "Cambiar nombre o borrar proyecto" button at the end of the parts
         screen instead of the small header link
-  - [ ] F8 Contrast: borders of buttons/fields ≥ 3:1, darker track, clearer disabled style
-  - [ ] F9 Wording per technique moved into techniques.ts (placeholders, hints, start label,
+  - [x] F8 Contrast: borders of buttons/fields ≥ 3:1, darker track, clearer disabled style
+  - [x] F9 Wording per technique moved into techniques.ts (placeholders, hints, start label,
         single-piece preset); third tab hidden until a project exists; welcome hint line
-  - [ ] F10 Pause per project (Dexie v4), never stuck on a finished piece, feedback when tapping
+  - [x] F10 Pause per project (Dexie v4), never stuck on a finished piece, feedback when tapping
         while paused
-  - [ ] F11 Data fixes: edits that finish a piece reset the row stitches; addRowToTarget updates
+  - [x] F11 Data fixes: edits that finish a piece reset the row stitches; addRowToTarget updates
         updatedAt; addParts ignores empty input
-  - [ ] F12 Cleanup: remove partPercent, single capitalize, techniqueOf in UI, text-size samples
+  - [x] F12 Cleanup: remove partPercent, single capitalize, techniqueOf in UI, text-size samples
         in px, lighter BottomNav query, prefs read once, docs path
-  - [ ] F13 Tests for all of the above plus migration edge cases and startup text scale
+  - [x] F13 Tests for all of the above plus migration edge cases and startup text scale
 - [ ] T13 Final report: decisions list, how to test
 
 Notes: T3–T8 landed together in one commit (`v2(T3-T8)`) because the data switch breaks the

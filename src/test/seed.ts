@@ -46,7 +46,5 @@ export async function expectStatus(text: string | RegExp) {
 }
 
 export async function expectRowStitches(text: string) {
-  await waitFor(() => {
-    expect(screen.getByText(/en esta (vuelta|fila)/, { selector: 'p' })).toHaveTextContent(text);
-  });
+  await expectStatus(text);
 }

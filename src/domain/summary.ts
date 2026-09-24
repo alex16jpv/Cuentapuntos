@@ -18,11 +18,6 @@ export interface ProjectSummaryData {
   percent: number | null;
 }
 
-export function partPercent(part: Part, mode: CountMode): number | null {
-  if (mode === 'rows') return percent(rowsDone(part), part.rowTarget);
-  return percent(part.count, part.target);
-}
-
 export function summarize(
   project: { technique: Technique; target: number | null },
   parts: readonly Part[],

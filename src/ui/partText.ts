@@ -1,4 +1,4 @@
-import { formatNumber } from '@/domain/format';
+import { capitalize, formatNumber } from '@/domain/format';
 import { currentRow, isFinished, rowsDone, type Part } from '@/domain/part';
 import type { ProjectSummaryData } from '@/domain/summary';
 import type { TechniqueInfo } from '@/domain/techniques';
@@ -27,10 +27,6 @@ export function partSummary(
   const count = notStartedLabel && part.count === 0 ? 'sin empezar' : stitchesLabel(part.count);
   const code = partCode(part);
   return code ? `${code} · ${count}` : capitalize(count);
-}
-
-function capitalize(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 export function projectLine(summary: ProjectSummaryData, technique: TechniqueInfo): string {

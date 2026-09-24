@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { runWrite } from '@/app/errors';
 import { paths, type ReturnState } from '@/app/paths';
 import { addRowToTarget, completeRow, countStitch, removeStitch, selectPart } from '@/data/parts';
-import { setPaused } from '@/data/preferences';
+import { setProjectPaused } from '@/data/projects';
 import { useWorkspace, type Workspace } from '@/data/queries';
 import { formatNumber } from '@/domain/format';
 import { canStepBack, currentRow, isFinished, rowsDone, type Part } from '@/domain/part';
@@ -31,19 +31,53 @@ export function CounterScreen() {
   return <Counter workspace={workspace} part={workspace.activePart} />;
 }
 
+const REPEAT_GUARD_MS = 1200;
+const NOTICE_MS = 6000;
+
 function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
   const { project, technique, parts, paused } = workspace;
+  const row = technique.row;
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [nudges, setNudges] = useState(0);
+  const lastFinish = useRef(0);
   const finished = technique.mode === 'rows' && isFinished(part);
+  const reopensRow = technique.mode === 'rows' && part.count === 0 && rowsDone(part) > 0;
+
+  useEffect(() => {
+    if (!notice) return;
+    const timer = setTimeout(() => setNotice(null), NOTICE_MS);
+    return () => clearTimeout(timer);
+  }, [notice]);
 
   const increment = () => {
-    if (paused) return;
     tapFeedback();
+    if (paused) {
+      setNudges((n) => n + 1);
+      return;
+    }
+    setNotice(null);
     runWrite(countStitch(part.id));
+  };
+
+  const finishCurrentRow = () => {
+    if (!row || paused) return;
+    const now = Date.now();
+    if (now - lastFinish.current < REPEAT_GUARD_MS) return;
+    lastFinish.current = now;
+    setNotice(`${row.oneCapital} ${formatNumber(currentRow(part))} terminada`);
+    runWrite(completeRow(part.id));
+  };
+
+  const undoFinish = () => {
+    setNotice(null);
+    lastFinish.current = 0;
+    runWrite(removeStitch(part.id));
   };
 
   const pick = (picked: Part) => {
     setSheetOpen(false);
+    setNotice(null);
     runWrite(selectPart(picked.id));
   };
 
@@ -69,7 +103,7 @@ function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
           />
         </div>
 
-        {technique.row ? (
+        {row ? (
           <RowTally part={part} technique={technique} />
         ) : (
           <StitchTally project={project} parts={parts} part={part} technique={technique} />
@@ -92,51 +126,75 @@ function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
                 <>
                   <LockIcon size={40} />
                   <span className={styles.pausedTitle}>En pausa</span>
-                  <span className={styles.pausedHint}>Toca «Seguir contando» abajo</span>
+                  <span key={nudges} className={nudges > 0 ? styles.nudge : undefined}>
+                    <span className={styles.pausedHint}>Toca «Seguir contando» abajo</span>
+                  </span>
                 </>
               ) : (
                 <>
                   <span className={styles.plus} aria-hidden="true">
                     +1
                   </span>
-                  <span className={styles.tapHint}>Toca aquí por cada punto</span>
+                  {row ? (
+                    <span className={styles.tapCount} aria-hidden="true">
+                      <strong key={part.count} className={styles.pulse}>
+                        {stitchesLabel(part.count)}
+                      </strong>{' '}
+                      en esta {row.one}
+                    </span>
+                  ) : (
+                    <span className={styles.tapHint}>{technique.tapHint}</span>
+                  )}
                 </>
               )}
             </button>
           )}
+          {notice && (
+            <div className={styles.notice} aria-live="polite">
+              <CheckIcon size={22} />
+              <span className={styles.noticeText}>{notice}</span>
+              <button type="button" className={styles.noticeUndo} onClick={undoFinish}>
+                Deshacer
+              </button>
+            </div>
+          )}
         </div>
 
-        {technique.row && !finished && (
+        {row && !finished && (
           <div className={styles.finishRow}>
-            <Button
-              variant="accent"
-              size="control"
-              disabled={paused}
-              onClick={() => runWrite(completeRow(part.id))}
-            >
+            <Button variant="accent" size="control" disabled={paused} onClick={finishCurrentRow}>
               <CheckIcon size={24} />
-              {technique.row.finish} {formatNumber(currentRow(part))}
+              {row.finish} {formatNumber(currentRow(part))}
             </Button>
           </div>
         )}
 
-        <div className={[styles.controls, finished && styles.single].filter(Boolean).join(' ')}>
+        <div
+          className={[styles.controls, finished && !paused && styles.single]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <Button
             variant="secondary"
             size="control"
             disabled={paused || !canStepBack(part, technique.mode)}
-            onClick={() => runWrite(removeStitch(part.id))}
+            onClick={() => {
+              setNotice(null);
+              runWrite(removeStitch(part.id));
+            }}
           >
             <MinusIcon size={22} />
-            Quitar uno
+            {reopensRow && row
+              ? `Volver a la ${row.one} ${formatNumber(rowsDone(part))}`
+              : 'Quitar uno'}
           </Button>
-          {!finished && (
+          {(!finished || paused) && (
             <Button
               variant="secondary"
               size="control"
               className={styles.lock}
               aria-pressed={paused}
-              onClick={() => runWrite(setPaused(!paused))}
+              onClick={() => runWrite(setProjectPaused(project.id, !paused))}
             >
               {paused ? 'Seguir contando' : 'Pausar'}
             </Button>
@@ -172,12 +230,21 @@ function StitchTally({
   return (
     <div className={styles.tally}>
       <div className={styles.count} role="status" aria-atomic="true">
-        {formatNumber(part.count)}
+        <span key={part.count} className={styles.pulse}>
+          {formatNumber(part.count)}
+        </span>
         <span className="visually-hidden"> puntos de {part.name}</span>
       </div>
       {part.target && partPercent !== null ? (
         <>
-          <p className={styles.caption}>de {formatNumber(part.target)} puntos</p>
+          {part.count >= part.target ? (
+            <p className={styles.completed}>
+              <CheckIcon size={22} />
+              ¡Completado! Eran {formatNumber(part.target)} puntos
+            </p>
+          ) : (
+            <p className={styles.caption}>de {formatNumber(part.target)} puntos</p>
+          )}
           <ProgressBar
             className={styles.bar}
             value={partPercent}
@@ -233,11 +300,6 @@ function RowTally({ part, technique }: { part: Part; technique: TechniqueInfo })
           height={14}
           label={`${row.many} de ${part.name}`}
         />
-      )}
-      {!finished && (
-        <p className={styles.rowStitches} aria-hidden="true">
-          <strong>{stitchesLabel(part.count)}</strong> en esta {row.one}
-        </p>
       )}
     </div>
   );

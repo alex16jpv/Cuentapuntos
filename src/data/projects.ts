@@ -19,6 +19,7 @@ export async function createProject(input: ProjectInput): Promise<Id> {
     technique: input.technique,
     target: TECHNIQUES[input.technique].askStitchTarget ? input.target : null,
     activePartId: null,
+    paused: false,
     createdAt: now,
     updatedAt: now,
   };
@@ -56,6 +57,10 @@ export async function deleteProject(id: Id): Promise<void> {
     const prefs = await getPreferences();
     if (prefs.currentProjectId === id) await updatePreferences({ currentProjectId: null });
   });
+}
+
+export async function setProjectPaused(id: Id, paused: boolean): Promise<void> {
+  await db.projects.update(id, { paused });
 }
 
 export function openProject(id: Id): Promise<void> {

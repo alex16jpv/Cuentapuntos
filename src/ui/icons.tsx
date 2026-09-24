@@ -25,9 +25,10 @@ function Svg({ size = 24, strokeWidth = 1.8, children, ...rest }: IconProps) {
 export function HoopIcon(props: IconProps) {
   return (
     <Svg {...props}>
-      <circle cx="12" cy="12" r="9" />
-      <circle cx="12" cy="12" r="6.5" />
-      <path d="M9.5 9.5l5 5M14.5 9.5l-5 5" />
+      <circle cx="11" cy="13" r="8" />
+      <circle cx="11" cy="13" r="5.5" />
+      <path d="M13.5 10.5L21 3" />
+      <path d="M8.5 15.5c1-2 2.5-3 5-5" />
     </Svg>
   );
 }
@@ -35,8 +36,7 @@ export function HoopIcon(props: IconProps) {
 export function ProjectsIcon(props: IconProps) {
   return (
     <Svg {...props}>
-      <rect x="4" y="4" width="16" height="16" rx="3" />
-      <path d="M8 8l8 8M16 8l-8 8" />
+      <path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" />
     </Svg>
   );
 }
@@ -44,8 +44,8 @@ export function ProjectsIcon(props: IconProps) {
 export function CountIcon(props: IconProps) {
   return (
     <Svg {...props}>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M12 8v8M8 12h8" />
+      <path d="M5 5v14M9 5v14M13 5v14M17 5v14" />
+      <path d="M3 16L20 8" />
     </Svg>
   );
 }
@@ -156,6 +156,18 @@ export function BrandIcon(props: IconProps) {
       <path d="M4.5 10.5c3.5-.5 8 1.5 10.5 6.5M5.8 7.8c3.8 0 7.8 2.6 9.7 7.2M9 5.8c3.3 1 6.3 3.8 7.4 7.6" />
       <path d="M16.5 7.5L21.5 2.5" />
       <circle cx="21" cy="3" r="0.6" />
+    </Svg>
+  );
+}
+
+export function ButtonIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="9.5" cy="9.5" r="1.2" />
+      <circle cx="14.5" cy="9.5" r="1.2" />
+      <circle cx="9.5" cy="14.5" r="1.2" />
+      <circle cx="14.5" cy="14.5" r="1.2" />
     </Svg>
   );
 }

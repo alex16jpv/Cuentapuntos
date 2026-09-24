@@ -74,6 +74,7 @@
 }
 
 .tapArea {
+  position: relative;
   padding: 10px 16px;
   flex-grow: 1;
   min-height: 160px;
@@ -134,7 +135,98 @@
 }
 
 .finishRow {
-  padding: 0 16px 12px;
+  padding: 14px 16px 12px;
+}
+
+.tapCount {
+  font-size: 1.375rem;
+  text-align: center;
+}
+
+.tapCount strong {
+  display: inline-block;
+  font-size: 1.75rem;
+}
+
+.pulse {
+  display: inline-block;
+  animation: pulse 220ms ease-out;
+}
+
+.nudge {
+  display: inline-block;
+  animation: nudge 360ms ease-out;
+}
+
+.notice {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 20px;
+  min-height: 56px;
+  padding: 6px 6px 6px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px #2b262240;
+}
+
+.notice > svg {
+  flex-shrink: 0;
+  color: var(--color-success);
+}
+
+.noticeText {
+  flex: 1;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.noticeUndo {
+  flex-shrink: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-accent);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.completed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--color-success);
+  text-align: center;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes nudge {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .nudge {
+    animation: none;
+  }
 }
 
 .rowLine {
@@ -157,16 +249,6 @@
   font-size: 1.875rem;
   font-weight: 600;
   color: var(--color-ink-muted);
-}
-
-.rowStitches {
-  margin-top: 8px;
-  font-size: 1.25rem;
-  color: var(--color-ink-muted);
-}
-
-.rowStitches strong {
-  color: var(--color-ink);
 }
 
 .finished {
@@ -275,11 +357,6 @@
   .rowLabel,
   .rowOf {
     font-size: 1.5rem;
-  }
-
-  .rowStitches {
-    margin-top: 4px;
-    font-size: 1.125rem;
   }
 
   .tapArea {

@@ -5,13 +5,6 @@
   gap: 6px;
 }
 
-.projectLine {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
 .projectName {
   font-size: 1.125rem;
   color: var(--color-ink-muted);
@@ -19,15 +12,7 @@
 }
 
 .editProject {
-  flex-shrink: 0;
-  min-height: 44px;
-  margin: -12px -8px;
-  padding: 0 8px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 1.0625rem;
-  font-weight: 700;
-  text-decoration: none;
+  margin-top: 16px;
 }
 
 .title {
@@ -57,7 +42,7 @@
   display: flex;
   align-items: center;
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
 }
 
@@ -143,11 +128,6 @@
 @media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
   .header {
     padding-bottom: 24px;
-  }
-
-  .projectLine {
-    justify-content: flex-start;
-    gap: 20px;
   }
 
   .list {

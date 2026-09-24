@@ -32,7 +32,7 @@
 .swatchButton {
   min-height: 88px;
   border-radius: var(--radius-lg);
-  border: 3px solid var(--color-border);
+  border: 3px solid var(--color-border-strong);
   background: var(--color-surface);
   color: var(--color-ink);
   display: flex;
@@ -48,6 +48,10 @@
 .swatchButton[aria-pressed='true'] {
   border-color: var(--color-accent);
   background: var(--color-surface-raised);
+}
+
+.fieldsTop {
+  padding: 0 24px 20px;
 }
 
 .fields {
@@ -107,7 +111,7 @@
   min-height: 64px;
   padding: 8px 12px;
   border-radius: var(--radius-lg);
-  border: 3px solid var(--color-border);
+  border: 3px solid var(--color-border-strong);
   background: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-sans);

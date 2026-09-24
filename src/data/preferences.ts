@@ -4,7 +4,6 @@ import { db } from './db';
 const DEFAULT_PREFERENCES: Preferences = {
   id: 'app',
   currentProjectId: null,
-  paused: false,
   textScale: 'normal',
 };
 
@@ -17,10 +16,6 @@ export async function updatePreferences(changes: Partial<Omit<Preferences, 'id'>
     const current = await getPreferences();
     await db.preferences.put({ ...current, ...changes });
   });
-}
-
-export function setPaused(paused: boolean): Promise<void> {
-  return updatePreferences({ paused });
 }
 
 export function setTextScale(textScale: TextScale): Promise<void> {

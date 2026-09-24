@@ -183,6 +183,7 @@ describe('migration from v1', () => {
     expect(await v3.projects.get('p1')).toMatchObject({
       technique: 'embroidery',
       activePartId: 't1',
+      paused: true,
     });
     expect(await v3.projects.get('p1')).not.toHaveProperty('activeThreadId');
     expect(await v3.parts.get('t1')).toMatchObject({
@@ -190,8 +191,68 @@ describe('migration from v1', () => {
       rowHistory: [],
       rowTarget: null,
     });
-    expect(await v3.preferences.get('app')).toMatchObject({ paused: true, textScale: 'normal' });
+    const prefs = await v3.preferences.get('app');
+    expect(prefs).toMatchObject({ currentProjectId: 'p1', textScale: 'normal' });
+    expect(prefs).not.toHaveProperty('paused');
     expect(v3.tables.map((t) => t.name).sort()).toEqual(['parts', 'preferences', 'projects']);
     await v3.delete();
+  });
+});
+
+describe('migration edge cases', () => {
+  it('works without a preferences row and with several projects', async () => {
+    const name = 'migration-edge';
+    const v1 = new Dexie(name);
+    v1.version(1).stores({
+      projects: 'id, updatedAt',
+      threads: 'id, projectId, [projectId+createdAt]',
+      preferences: 'id',
+    });
+    await v1.table('projects').bulkAdd([
+      { id: 'a', name: 'A', target: 100, activeThreadId: null, createdAt: 1, updatedAt: 1 },
+      { id: 'b', name: 'B', target: null, activeThreadId: 'tb', createdAt: 2, updatedAt: 2 },
+    ]);
+    await v1.table('threads').add({
+      id: 'tb',
+      projectId: 'b',
+      name: 'Azul',
+      hex: '#1E4A9C',
+      code: null,
+      target: null,
+      count: 3,
+      createdAt: 1,
+    });
+    v1.close();
+
+    const upgraded = new BastidorDB(name);
+    expect(await upgraded.projects.get('a')).toMatchObject({ activePartId: null, paused: false });
+    expect(await upgraded.projects.get('b')).toMatchObject({ activePartId: 'tb', paused: false });
+    expect(await upgraded.preferences.count()).toBe(0);
+    await upgraded.delete();
+  });
+});
+
+describe('data fixes', () => {
+  it('an edit that finishes a piece clears the stitches of the open row', async () => {
+    const id = await addPart(await crochet(), piece('Cabeza', 10));
+    await countStitch(id);
+    await countStitch(id);
+    await updatePart(id, { rowsDone: 10 });
+    expect(await db.parts.get(id)).toMatchObject({ count: 0 });
+  });
+
+  it('adding a row to the target marks the project as updated', async () => {
+    const projectId = await crochet();
+    const id = await addPart(projectId, piece('Cabeza', 1));
+    await db.projects.update(projectId, { updatedAt: 0 });
+    await addRowToTarget(id);
+    expect((await db.projects.get(projectId))?.updatedAt).toBeGreaterThan(0);
+  });
+
+  it('adding no parts changes nothing', async () => {
+    const projectId = await embroidery();
+    const id = await addPart(projectId, red);
+    expect(await addParts(projectId, [])).toEqual([]);
+    expect((await db.projects.get(projectId))?.activePartId).toBe(id);
   });
 });

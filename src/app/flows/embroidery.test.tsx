@@ -1,7 +1,9 @@
 import { screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { renderApp } from '@/test/renderApp';
-import { expectStatus, seedEmbroidery } from '@/test/seed';
+import { addParts } from '@/data/parts';
+import { createProject } from '@/data/projects';
+import { expectStatus, RED, seedEmbroidery } from '@/test/seed';
 
 describe('embroidery', () => {
   it('first run: create a project, add a color and count', async () => {
@@ -105,5 +107,25 @@ describe('project creation history', () => {
 
     await router.navigate(-1);
     expect(await screen.findByRole('heading', { name: '¿Qué hacemos hoy?' })).toBeInTheDocument();
+  });
+
+  it('celebrates reaching the color target without blocking the counter', async () => {
+    const projectId = await createProject({ name: 'Cojín', technique: 'embroidery', target: null });
+    await addParts(projectId, [{ ...RED, target: 2 }]);
+    const { user } = renderApp('/count');
+
+    const tap = await screen.findByRole('button', { name: 'Sumar un punto' });
+    await user.click(tap);
+    await user.click(tap);
+    expect(await screen.findByText(/¡Completado!/)).toHaveTextContent('Eran 2 puntos');
+    await user.click(tap);
+    await expectStatus(/^3/);
+  });
+
+  it('hides the third tab until there is a project', async () => {
+    renderApp('/');
+    await screen.findByText('¡Hola!');
+    const nav = screen.getByRole('navigation', { name: 'Principal' });
+    expect(within(nav).getAllByRole('link')).toHaveLength(2);
   });
 });

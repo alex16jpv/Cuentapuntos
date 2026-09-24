@@ -9,7 +9,7 @@ import { CheckIcon } from '@/ui/icons';
 import { Screen } from '@/ui/Screen';
 import styles from './SettingsScreen.module.css';
 
-const SAMPLE_SIZES = { normal: '1.5rem', large: '1.75rem', extra: '2.05rem' } as const;
+const SAMPLE_SIZES = { normal: '24px', large: '28px', extra: '31px' } as const;
 
 export function SettingsScreen() {
   const prefs = usePreferences();

@@ -29,7 +29,7 @@ export function AddPartScreen() {
       project={project}
       technique={technique}
       title={technique.part.add}
-      subtitle={subtitleFor(technique)}
+      subtitle={technique.part.addHint}
       backTo={paths.parts}
       submitLabel={(names) =>
         names.length > 1 ? `Añadir ${names.length} ${technique.part.many}` : `Añadir ${names[0]}`
@@ -49,12 +49,6 @@ export function AddPartScreen() {
       }}
     />
   );
-}
-
-function subtitleFor(technique: TechniqueInfo): string {
-  if (technique.usesPalette) return 'Toca el color que más se parece a tu hilo.';
-  if (technique.mode === 'rows') return '¿Qué pieza vas a tejer?';
-  return 'Ponle un nombre para reconocerlo.';
 }
 
 function Added({

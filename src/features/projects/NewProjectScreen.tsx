@@ -3,16 +3,9 @@ import { paths } from '@/app/paths';
 import { requestPersistentStorage } from '@/data/db';
 import { createProject } from '@/data/projects';
 import type { Technique } from '@/domain/part';
-import { TECHNIQUE_ORDER, TECHNIQUES } from '@/domain/techniques';
+import { TECHNIQUE_ORDER, techniqueOf } from '@/domain/techniques';
 import { ProjectForm } from './ProjectForm';
 import { TechniquePicker } from './TechniquePicker';
-
-const START_LABEL: Record<Technique, string> = {
-  embroidery: 'Empezar a bordar',
-  crochet: 'Empezar a tejer',
-  knitting: 'Empezar a tejer',
-  other: 'Empezar a contar',
-};
 
 function isTechnique(value: string | null): value is Technique {
   return TECHNIQUE_ORDER.some((t) => t === value);
@@ -31,14 +24,14 @@ export function NewProjectScreen() {
     );
   }
 
-  const technique = TECHNIQUES[chosen];
+  const technique = techniqueOf(chosen);
 
   return (
     <ProjectForm
       key={chosen}
       technique={technique}
       title="Nuevo proyecto"
-      submitLabel={START_LABEL[chosen]}
+      submitLabel={technique.start}
       backTo={paths.newProject}
       onBack={() => setParams({}, { replace: true })}
       onSubmit={async (values) => {

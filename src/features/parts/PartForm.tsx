@@ -1,6 +1,6 @@
 import { useId, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { reportWriteError } from '@/app/errors';
-import { normalizeCode, parseCount, parsePositiveInt } from '@/domain/format';
+import { capitalize, normalizeCode, parseCount, parsePositiveInt } from '@/domain/format';
 import { listInSpanish, numberedNames } from '@/domain/names';
 import { findByCode, findByHex, PALETTE } from '@/domain/palette';
 import { rowsDone, type Part } from '@/domain/part';
@@ -62,7 +62,9 @@ export function PartForm(props: PartFormProps) {
   const fallback = initial?.hex ? { name: initial.name, hex: initial.hex } : null;
   const color = isColor ? (PALETTE[picked] ?? fallback) : null;
   const chosenName = isColor ? (color?.name ?? '') : name.trim();
-  const names = chosenName ? numberedNames(chosenName, isPiece && !initial ? quantity : 1) : [];
+  const singlePiece = isPiece && name.trim() === props.project.name.trim();
+  const askQuantity = isPiece && !initial && !singlePiece;
+  const names = chosenName ? numberedNames(chosenName, askQuantity ? quantity : 1) : [];
 
   const values = (): PartFormValues | null => {
     const parsedCount = parseCount(count);
@@ -118,8 +120,45 @@ export function PartForm(props: PartFormProps) {
     if (match >= 0) setPicked(match);
   };
 
+  const correction =
+    initial &&
+    (isPiece ? (
+      <TextField
+        compact
+        label={`${capitalize(technique.row?.many ?? '')} terminadas`}
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        ref={lastRef}
+        value={rows}
+        error={fieldError?.field === 'rows' ? fieldError.text : null}
+        onChange={(e) => {
+          setRows(e.target.value.replace(/\D/g, ''));
+          setFieldError(null);
+        }}
+        hint="Corrígelo si te equivocaste al contar."
+      />
+    ) : (
+      <TextField
+        compact
+        label="Puntos contados"
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        ref={lastRef}
+        value={count}
+        error={fieldError?.field === 'count' ? fieldError.text : null}
+        onChange={(e) => {
+          setCount(e.target.value.replace(/\D/g, ''));
+          setFieldError(null);
+        }}
+        hint="Corrígelo si te equivocaste al contar."
+      />
+    ));
+
   return (
     <Screen
+      inlineFooter
       footerClassName={styles.footer}
       footer={
         <>
@@ -149,6 +188,8 @@ export function PartForm(props: PartFormProps) {
         <p className={styles.subtitle}>{props.subtitle}</p>
       </div>
       <form id={formId} onSubmit={(e) => void submit(e)} noValidate>
+        {isColor && correction && <div className={styles.fieldsTop}>{correction}</div>}
+
         {isColor && (
           <div className={styles.palette} role="group" aria-label="Colores">
             {PALETTE.map((option, index) => (
@@ -168,14 +209,16 @@ export function PartForm(props: PartFormProps) {
 
         {!isColor && technique.namePresets.length > 0 && (
           <div className={styles.presets} role="group" aria-label="Nombres habituales">
-            <button
-              type="button"
-              className={styles.preset}
-              aria-pressed={name === props.project.name}
-              onClick={() => setName(props.project.name)}
-            >
-              Todo es una pieza
-            </button>
+            {technique.singlePiece && (
+              <button
+                type="button"
+                className={styles.preset}
+                aria-pressed={singlePiece}
+                onClick={() => setName(props.project.name)}
+              >
+                {technique.singlePiece}
+              </button>
+            )}
             {technique.namePresets.map((preset) => (
               <button
                 key={preset}
@@ -198,14 +241,16 @@ export function PartForm(props: PartFormProps) {
               type="text"
               autoComplete="off"
               enterKeyHint="next"
-              placeholder={isPiece ? 'Ej. Cabeza' : 'Ej. Vueltas de la manga'}
+              placeholder={technique.partNameExample}
               value={name}
               onKeyDown={(e) => focusOnEnter(e, nextRef)}
               onChange={(e) => setName(e.target.value)}
             />
           )}
 
-          {isPiece && !initial && (
+          {!isColor && correction}
+
+          {askQuantity && (
             <div className={styles.quantity}>
               <span id={quantityLabelId} className={styles.quantityLabel}>
                 ¿Cuántas iguales?
@@ -214,7 +259,7 @@ export function PartForm(props: PartFormProps) {
               <span className={styles.hint}>
                 {names.length > 1
                   ? `Se añadirán: ${listInSpanish(names)}.`
-                  : 'Por ejemplo, 2 si son dos brazos.'}
+                  : technique.quantityHint}
               </span>
             </div>
           )}
@@ -247,9 +292,8 @@ export function PartForm(props: PartFormProps) {
               inputMode="numeric"
               autoComplete="off"
               placeholder="Ej. 20"
-              enterKeyHint={initial ? 'next' : 'done'}
+              enterKeyHint="done"
               ref={nextRef}
-              onKeyDown={(e) => initial && focusOnEnter(e, lastRef)}
               value={rowTarget}
               onChange={(e) => setRowTarget(e.target.value.replace(/\D/g, ''))}
               hint="Viene en el patrón. Si no lo sabes, déjalo en blanco."
@@ -263,57 +307,15 @@ export function PartForm(props: PartFormProps) {
               inputMode="numeric"
               autoComplete="off"
               placeholder="Ej. 560"
-              enterKeyHint={initial ? 'next' : 'done'}
+              enterKeyHint="done"
               ref={nextRef}
-              onKeyDown={(e) => initial && focusOnEnter(e, lastRef)}
               value={target}
               onChange={(e) => setTarget(e.target.value.replace(/\D/g, ''))}
               hint="Si no lo sabes, déjalo en blanco."
             />
           )}
-
-          {initial &&
-            (isPiece ? (
-              <TextField
-                compact
-                label={`${capitalize(technique.row?.many ?? '')} terminadas`}
-                type="text"
-                inputMode="numeric"
-                autoComplete="off"
-                enterKeyHint="done"
-                ref={lastRef}
-                value={rows}
-                error={fieldError?.field === 'rows' ? fieldError.text : null}
-                onChange={(e) => {
-                  setRows(e.target.value.replace(/\D/g, ''));
-                  setFieldError(null);
-                }}
-                hint="Corrígelo si te equivocaste al contar."
-              />
-            ) : (
-              <TextField
-                compact
-                label="Puntos contados"
-                type="text"
-                inputMode="numeric"
-                autoComplete="off"
-                enterKeyHint="done"
-                ref={lastRef}
-                value={count}
-                error={fieldError?.field === 'count' ? fieldError.text : null}
-                onChange={(e) => {
-                  setCount(e.target.value.replace(/\D/g, ''));
-                  setFieldError(null);
-                }}
-                hint="Corrígelo si te equivocaste al contar."
-              />
-            ))}
         </div>
       </form>
     </Screen>
   );
-}
-
-function capitalize(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
 }

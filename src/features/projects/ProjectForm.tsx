@@ -15,13 +15,6 @@ export interface ProjectFormValues {
   target: number | null;
 }
 
-const NAME_EXAMPLES = {
-  embroidery: 'Ej. Mantel de flores',
-  crochet: 'Ej. Muñeco osito',
-  knitting: 'Ej. Bufanda roja',
-  other: 'Ej. Pulsera de macramé',
-} as const;
-
 interface ProjectFormProps {
   technique: TechniqueInfo;
   title: string;
@@ -92,7 +85,7 @@ export function ProjectForm({
         <TextField
           label="¿Cómo se llama?"
           type="text"
-          placeholder={NAME_EXAMPLES[technique.id]}
+          placeholder={technique.projectExample}
           autoComplete="off"
           enterKeyHint={technique.askStitchTarget ? 'next' : 'done'}
           onKeyDown={(e) => technique.askStitchTarget && focusOnEnter(e, targetRef)}

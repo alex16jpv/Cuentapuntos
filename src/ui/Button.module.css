@@ -60,10 +60,6 @@
   color: var(--color-ink);
 }
 
-.button:disabled {
-  opacity: 0.45;
-}
-
 .secondary,
 .secondary:hover {
   border: 2px solid var(--color-border-strong);
@@ -97,4 +93,11 @@
   border: none;
   background: var(--color-danger);
   color: var(--color-on-accent);
+}
+
+.button:disabled,
+.button:disabled:hover {
+  border: 2px dashed var(--color-border-strong);
+  background: transparent;
+  color: var(--color-ink-muted);
 }

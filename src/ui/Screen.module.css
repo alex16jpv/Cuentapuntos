@@ -23,6 +23,10 @@
   flex-shrink: 0;
 }
 
+.inlineFooter {
+  margin-top: auto;
+}
+
 .footerInner {
   width: 100%;
   max-width: var(--content-max);

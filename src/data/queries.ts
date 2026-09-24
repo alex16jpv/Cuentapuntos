@@ -20,8 +20,7 @@ export interface Workspace {
   paused: boolean;
 }
 
-async function currentProject(): Promise<Project | null> {
-  const prefs = await getPreferences();
+async function currentProject(prefs: Preferences): Promise<Project | null> {
   const chosen = prefs.currentProjectId ? await db.projects.get(prefs.currentProjectId) : undefined;
   return chosen ?? (await db.projects.orderBy('updatedAt').last()) ?? null;
 }
@@ -53,7 +52,7 @@ export function useProjectSummaries(): ProjectSummary[] | undefined {
 
 export function useWorkspace(): Workspace | null | undefined {
   return useLiveQuery(async () => {
-    const [project, prefs] = await Promise.all([currentProject(), getPreferences()]);
+    const project = await currentProject(await getPreferences());
     if (!project) return null;
     const parts = await listParts(project.id);
     const activePart = parts.find((p) => p.id === project.activePartId) ?? parts[0] ?? null;
@@ -62,8 +61,15 @@ export function useWorkspace(): Workspace | null | undefined {
       technique: techniqueOf(project.technique),
       parts,
       activePart,
-      paused: prefs.paused,
+      paused: project.paused,
     };
+  });
+}
+
+export function useCurrentTechnique(): TechniqueInfo | null | undefined {
+  return useLiveQuery(async () => {
+    const project = await currentProject(await getPreferences());
+    return project ? techniqueOf(project.technique) : null;
   });
 }
 
