@@ -28,7 +28,7 @@ Out of scope: backup (next recommended feature).
 ## Tasks
 
 - [x] T1 Branch, this plan, memory pointer
-- [ ] T2 Domain: techniques config, part types, row logic, progress + unit tests
+- [x] T2 Domain: techniques config, part types, row logic, progress + unit tests
 - [ ] T3 Data: Dexie v2 migration (threads → parts, technique, new preferences), repository + tests
 - [ ] T4 Rename UI threads → parts (routes, features, copy), embroidery behaves as before
 - [ ] T5 New project flow: technique picker, then add the first part (other: auto-created)
