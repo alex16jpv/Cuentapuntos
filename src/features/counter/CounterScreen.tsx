@@ -221,8 +221,8 @@ function RowTally({ part, technique }: { part: Part; technique: TechniqueInfo })
         {part.rowTarget && <span className={styles.rowOf}>de {formatNumber(part.rowTarget)}</span>}
         <span className="visually-hidden">
           {finished
-            ? `, ${part.name} terminada`
-            : `, ${stitchesLabel(part.count)} en esta ${row.one}`}
+            ? `. Terminaste ${part.name}`
+            : `. ${stitchesLabel(part.count)} en esta ${row.one}`}
         </span>
       </div>
       {rowPercent !== null && (
@@ -262,7 +262,7 @@ function FinishedPanel({
       <span className={styles.finishedIcon}>
         <CheckIcon size={44} />
       </span>
-      <p className={styles.finishedTitle}>¡{part.name} terminada!</p>
+      <p className={styles.finishedTitle}>¡Terminaste {part.name}!</p>
       {next ? (
         <Button variant="onDark" size="control" onClick={() => onPick(next)}>
           Seguir con {next.name}

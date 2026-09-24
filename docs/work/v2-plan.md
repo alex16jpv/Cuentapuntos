@@ -37,7 +37,7 @@ Out of scope: backup (next recommended feature).
 - [x] T7 Counter rows mode: row display, "Terminé la vuelta", undo across rows, finished piece
 - [x] T8 Parts list and project cards per technique; dynamic tab label
 - [x] T9 Text size setting (rem), settings screen, first-run welcome
-- [ ] T10 Name, icon, manifest, copy review
+- [x] T10 Name, icon, manifest, copy review
 - [ ] T11 Visual verification (phone, tablet, desktop, landscape), screenshots to docs/design/v2,
       update README and ARCHITECTURE
 - [ ] T12 Reviews in parallel: task review (unbiased), code quality review, UX review for the
@@ -69,3 +69,6 @@ old UI; the Settings link on Proyectos points to `/settings`, which T9 creates.
 | 16  | Creation history                            | Keep picker in history · replace                            | Picker, form and first-part screens replace each other                                                                             | Back from Contar returns to Proyectos, not to a finished form                                                          |
 | 17  | Bigger text                                 | Follow the phone setting only · in-app setting              | In-app "Tamaño de la letra" (Normal 100%, Grande 115%, Muy grande 130%) plus rem units so the browser's own text size also applies | The phone setting does not reach web apps reliably (iOS ignores it); a visible setting can be changed by a helper once |
 | 18  | Where settings live                         | Extra tab · link on Proyectos                               | "Ajustes" link in the Proyectos header                                                                                             | Keeps three tabs; settings are rarely needed                                                                           |
+| 19  | Icon                                        | Embroidery hoop · ball of yarn with needle                  | Ball of yarn with needle                                                                                                           | Reads as "handicrafts" for every technique                                                                             |
+| 20  | Database name                               | Rename to mis-labores · keep mi-bastidor                    | Keep `mi-bastidor` internally                                                                                                      | Renaming would orphan data already saved on the device                                                                 |
+| 21  | Gendered copy                               | "¡Cabeza terminada!" · neutral                              | "¡Terminaste Cabeza!"                                                                                                              | Piece names can be masculine or feminine ("Cuerpo", "Oreja")                                                           |

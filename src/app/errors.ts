@@ -1,4 +1,4 @@
-const EVENT = 'mi-bastidor:write-error';
+const EVENT = 'mis-labores:write-error';
 
 export function reportWriteError(error: unknown): void {
   console.error(error);

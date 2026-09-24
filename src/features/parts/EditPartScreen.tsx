@@ -31,7 +31,11 @@ export function EditPartScreen() {
         project={project}
         technique={technique}
         title={technique.part.edit}
-        subtitle={isPiece ? 'Cambia el nombre o las vueltas.' : 'Cambia lo que necesites.'}
+        subtitle={
+          technique.row
+            ? `Cambia el nombre o las ${technique.row.many}.`
+            : 'Cambia lo que necesites.'
+        }
         backTo={paths.parts}
         initial={part}
         submitLabel={() => 'Guardar cambios'}

@@ -90,7 +90,7 @@ export const TECHNIQUES: Record<Technique, TechniqueInfo> = {
     label: 'Otra cosa',
     description: 'Un contador sencillo',
     mode: 'stitches',
-    doing: 'Estás con',
+    doing: 'Estás contando',
     askStitchTarget: true,
     usesPalette: false,
     namePresets: [],

@@ -44,7 +44,7 @@ describe('crochet', () => {
     await user.click(screen.getByRole('button', { name: 'Terminé la vuelta 1' }));
     await user.click(await screen.findByRole('button', { name: 'Terminé la vuelta 2' }));
 
-    expect(await screen.findByText('¡Brazo 1 terminada!')).toBeInTheDocument();
+    expect(await screen.findByText('¡Terminaste Brazo 1!')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Sumar un punto' })).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Seguir con Brazo 2' }));
     expect(await screen.findByRole('button', { name: /Brazo 2.*Cambiar/ })).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe('crochet', () => {
     const { user } = renderApp('/count');
 
     await user.click(await screen.findByRole('button', { name: 'Terminé la vuelta 1' }));
-    expect(await screen.findByText('¡Cabeza terminada!')).toBeInTheDocument();
+    expect(await screen.findByText('¡Terminaste Cabeza!')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Ver mis piezas' })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Me falta otra vuelta' }));

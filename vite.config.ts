@@ -20,9 +20,9 @@ export default defineConfig({
       },
       manifest: {
         id: '/',
-        name: 'Mi Bastidor',
-        short_name: 'Mi Bastidor',
-        description: 'Cuenta los puntos de tus bordados, color por color.',
+        name: 'Mis Labores',
+        short_name: 'Mis Labores',
+        description: 'Cuenta puntos, vueltas y colores de tus labores: bordado, ganchillo y punto.',
         lang: 'es',
         dir: 'ltr',
         start_url: '/',
