@@ -130,3 +130,33 @@
   flex-direction: column;
   gap: 16px;
 }
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .header {
+    padding-bottom: 24px;
+  }
+
+  .projectLine {
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .list {
+    padding-bottom: 32px;
+    gap: 16px;
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+
+  .list > a,
+  .noThreads {
+    max-width: 480px;
+  }
+
+  .empty {
+    max-width: var(--content-narrow);
+  }
+}

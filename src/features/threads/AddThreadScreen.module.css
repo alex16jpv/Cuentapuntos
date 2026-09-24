@@ -1,5 +1,8 @@
 .done {
   flex-grow: 1;
+  width: 100%;
+  max-width: var(--content-narrow);
+  margin: 0 auto;
   padding: max(120px, calc(var(--safe-top) + 72px)) 28px var(--footer-bottom);
   display: flex;
   flex-direction: column;
@@ -22,4 +25,16 @@
 
 .spacer {
   flex-grow: 1;
+}
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .done {
+    justify-content: center;
+    padding-top: var(--header-top);
+  }
+
+  .spacer {
+    flex-grow: 0;
+    height: 16px;
+  }
 }

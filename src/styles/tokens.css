@@ -28,8 +28,13 @@
   --radius-2xl: 28px;
 
   --app-max-width: 480px;
+  --content-narrow: 640px;
+  --content-wide: 1080px;
+  --rail-width: 112px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
   --header-top: max(56px, calc(var(--safe-top) + 24px));
   --header-top-tight: max(52px, calc(var(--safe-top) + 20px));
   --footer-bottom: max(40px, calc(var(--safe-bottom) + 16px));

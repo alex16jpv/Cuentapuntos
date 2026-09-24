@@ -1,24 +1,35 @@
 import { Outlet } from 'react-router';
 import { UpdateBanner } from '@/pwa/UpdateBanner';
 import styles from './AppShell.module.css';
-import { ErrorToast } from './ErrorToast';
 import { BottomNav } from './BottomNav';
+import { ErrorToast } from './ErrorToast';
 
 export function AppShell() {
   return (
     <div className={styles.shell}>
       <UpdateBanner />
       <Outlet />
-      <ErrorToast />
     </div>
   );
 }
 
 export function TabLayout() {
   return (
-    <>
-      <Outlet />
+    <div className={styles.tabs}>
+      <main className={styles.main}>
+        <Outlet />
+        <ErrorToast />
+      </main>
       <BottomNav />
-    </>
+    </div>
+  );
+}
+
+export function PlainLayout() {
+  return (
+    <main className={[styles.main, styles.plain].join(' ')}>
+      <Outlet />
+      <ErrorToast />
+    </main>
   );
 }

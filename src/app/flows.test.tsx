@@ -4,6 +4,7 @@ import { db } from '@/data/db';
 import { createProject } from '@/data/projects';
 import { addThread } from '@/data/threads';
 import { renderApp } from '@/test/renderApp';
+import { WIDE_SCREEN } from '@/ui/useMediaQuery';
 
 async function seedProject() {
   const projectId = await createProject({ name: 'Jardín de invierno', target: null });
@@ -142,6 +143,29 @@ describe('threads', () => {
     await user.click(await screen.findByRole('button', { name: 'Sí, borrar' }));
 
     expect(await screen.findByText('Aún no tienes proyectos')).toBeInTheDocument();
+  });
+});
+
+describe('large screens', () => {
+  it('reads the page content before the navigation', async () => {
+    renderApp('/');
+    const main = await screen.findByRole('main');
+    const nav = screen.getByRole('navigation', { name: 'Principal' });
+    expect(main.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('puts "Nuevo proyecto" in the header instead of a bottom bar', async () => {
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: query === WIDE_SCREEN,
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+    renderApp('/');
+
+    const header = await screen.findByRole('banner');
+    expect(within(header).getByRole('link', { name: /Nuevo proyecto/ })).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /Nuevo proyecto/ })).toHaveLength(1);
   });
 });
 

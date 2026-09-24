@@ -46,6 +46,19 @@
   margin-bottom: 4px;
 }
 
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .dialog[open] {
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .panel {
+    border-radius: var(--radius-2xl);
+    padding: 28px 28px 24px;
+    max-height: 80dvh;
+  }
+}
+
 @keyframes rise {
   from {
     transform: translateY(24px);

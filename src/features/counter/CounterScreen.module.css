@@ -6,6 +6,17 @@
   overflow-y: auto;
 }
 
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.action {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   padding: var(--header-top-tight) 20px 4px;
   display: flex;
@@ -166,5 +177,120 @@
 
   .plus {
     font-size: 56px;
+  }
+}
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .info,
+  .action,
+  .empty {
+    width: 100%;
+    max-width: var(--content-narrow);
+    margin-inline: auto;
+  }
+
+  .empty {
+    padding-inline: 24px;
+  }
+}
+
+@media (min-width: 1024px), (orientation: landscape) and (min-width: 600px) {
+  .counter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    column-gap: 16px;
+    width: 100%;
+    max-width: var(--content-wide);
+    margin-inline: auto;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+
+  .counter .info {
+    max-width: none;
+    min-height: 0;
+    overflow-y: auto;
+    justify-content: safe center;
+    padding-top: var(--header-top-tight);
+    padding-bottom: var(--footer-bottom);
+  }
+
+  .counter .action {
+    max-width: none;
+    min-height: 0;
+    padding-top: var(--header-top-tight);
+    padding-bottom: calc(var(--safe-bottom) + 8px);
+  }
+
+  .counter .header {
+    padding-top: 0;
+  }
+
+  .counter .tapArea {
+    min-height: 0;
+  }
+
+  .counter .count {
+    font-size: clamp(72px, 15dvh, 150px);
+  }
+
+  .counter .projectName {
+    font-size: 30px;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+  .counter .info,
+  .counter .action {
+    padding-top: calc(var(--safe-top) + 12px);
+    padding-bottom: calc(var(--safe-bottom) + 8px);
+  }
+
+  .counter .header {
+    padding-bottom: 0;
+  }
+
+  .counter .projectName {
+    font-size: 24px;
+  }
+
+  .counter .current {
+    padding-top: 8px;
+  }
+
+  .counter .tally {
+    padding: 8px 24px 4px;
+  }
+
+  .counter .count {
+    font-size: clamp(48px, 14dvh, 72px);
+  }
+
+  .counter .plus {
+    font-size: 48px;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 600px) and (max-width: 799.98px) {
+  .counter .current,
+  .counter .header {
+    padding-inline: 8px;
+  }
+
+  .counter .tally {
+    padding-inline: 8px;
+  }
+
+  .counter .tapArea,
+  .counter .controls {
+    padding-inline: 0;
+  }
+
+  .counter .controls {
+    gap: 8px;
+  }
+
+  .counter .controls svg {
+    display: none;
   }
 }

@@ -28,5 +28,6 @@ beforeEach(async () => {
 
 afterEach(async () => {
   cleanup();
+  vi.unstubAllGlobals();
   await db.delete();
 });

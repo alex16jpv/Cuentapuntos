@@ -16,11 +16,11 @@ import styles from './ThreadsScreen.module.css';
 export function ThreadsScreen() {
   const workspace = useWorkspace();
 
-  if (workspace === undefined) return <Screen>{null}</Screen>;
+  if (workspace === undefined) return <Screen width="wide">{null}</Screen>;
 
   if (workspace === null) {
     return (
-      <Screen>
+      <Screen width="wide">
         <header className={styles.header}>
           <h1 className={styles.title}>Hilos</h1>
         </header>
@@ -40,7 +40,7 @@ export function ThreadsScreen() {
   const { project, threads, activeThread } = workspace;
 
   return (
-    <Screen>
+    <Screen width="wide">
       <header className={styles.header}>
         <div className={styles.projectLine}>
           <p className={styles.projectName}>{project.name}</p>
@@ -64,7 +64,7 @@ export function ThreadsScreen() {
             ))}
           </ul>
         ) : (
-          <EmptyState title="Aún no hay colores">
+          <EmptyState title="Aún no hay colores" className={styles.noThreads}>
             Añade los colores de hilo que vas a usar en este proyecto.
           </EmptyState>
         )}

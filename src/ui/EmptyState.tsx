@@ -1,9 +1,15 @@
 import type { ReactNode } from 'react';
 import styles from './EmptyState.module.css';
 
-export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
+interface EmptyStateProps {
+  title: string;
+  children?: ReactNode;
+  className?: string;
+}
+
+export function EmptyState({ title, children, className }: EmptyStateProps) {
   return (
-    <div className={styles.empty}>
+    <div className={[styles.empty, className].filter(Boolean).join(' ')}>
       <p className={styles.title}>{title}</p>
       {children && <p className={styles.text}>{children}</p>}
     </div>

@@ -73,6 +73,26 @@ Opening a project or picking a color only changes these pointers.
   still the most reliable protection, especially on Safari.
 - While counting, the screen wake lock keeps the display on (where supported).
 
+## Screen sizes
+
+The design is for phones; larger screens reuse it instead of stretching or boxing it.
+"Wide" means `(min-width: 768px), (orientation: landscape) and (min-width: 600px)`, so phones in
+landscape get the wide layout too.
+
+| Condition                      | Layout                                                                                                                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Not wide                       | The design as-is: one column, bottom tab bar.                                                                                                                                                     |
+| Wide                           | Side navigation rail; content centered in a readable column (`--content-narrow` for forms, `--content-wide` for grids); cards in grids; sheets become centered dialogs; form actions align right. |
+| ≥ 1024px, or landscape ≥ 600px | Counter in two columns: project, color and count on the left; the tap area and controls on the right.                                                                                             |
+| Short screens (≤ 740px tall)   | Compact counter so the controls stay visible; landscape ≤ 600px tall compacts the rail and headers further.                                                                                       |
+
+- CSS media queries repeat these conditions; `WIDE_SCREEN` in `src/ui/useMediaQuery.ts` is the copy
+  JavaScript uses and must match.
+- The tab content sits in `<main>` before the navigation in the DOM, so keyboard and screen-reader
+  order is content first; CSS moves the rail to the left on wide screens.
+- Left and right safe-area insets are applied (rail and shell) for landscape phones with a notch.
+- The manifest does not lock the orientation.
+
 ## Design fidelity
 
 The source design is in `docs/design/`. `Mi Bastidor.html` is the original bundle; `screens/`

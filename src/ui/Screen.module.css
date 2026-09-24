@@ -1,8 +1,14 @@
 .screen {
+  --content-max: var(--content-narrow);
   flex: 1;
+  min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
+}
+
+.wide {
+  --content-max: var(--content-wide);
 }
 
 .body {
@@ -15,4 +21,20 @@
 
 .footer {
   flex-shrink: 0;
+}
+
+.footerInner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .body {
+    padding-inline: max(16px, calc((100% - var(--content-max)) / 2));
+  }
+
+  .footer {
+    padding-inline: 16px;
+  }
 }

@@ -44,70 +44,74 @@ function Counter({ workspace, thread }: { workspace: Workspace; thread: Thread }
   };
 
   return (
-    <div className={styles.screen}>
-      <header className={styles.header}>
-        <p className={styles.eyebrow}>Estás bordando</p>
-        <h1 className={styles.projectName}>{project.name}</h1>
-      </header>
+    <div className={[styles.screen, styles.counter].join(' ')}>
+      <div className={styles.info}>
+        <header className={styles.header}>
+          <p className={styles.eyebrow}>Estás bordando</p>
+          <h1 className={styles.projectName}>{project.name}</h1>
+        </header>
 
-      <div className={styles.current}>
-        <ThreadOption
-          hex={thread.hex}
-          name={thread.name}
-          detail={threadCode(thread)}
-          action="Cambiar"
-          tone="strong"
-          aria-haspopup="dialog"
-          onClick={() => setSheetOpen(true)}
-        />
+        <div className={styles.current}>
+          <ThreadOption
+            hex={thread.hex}
+            name={thread.name}
+            detail={threadCode(thread)}
+            action="Cambiar"
+            tone="strong"
+            aria-haspopup="dialog"
+            onClick={() => setSheetOpen(true)}
+          />
+        </div>
+
+        <Tally project={project} threads={threads} thread={thread} />
       </div>
 
-      <Tally project={project} threads={threads} thread={thread} />
+      <div className={styles.action}>
+        <div className={styles.tapArea}>
+          <button
+            type="button"
+            className={styles.tap}
+            aria-label={paused ? 'Contador en pausa' : 'Sumar un punto'}
+            aria-disabled={paused}
+            onClick={increment}
+          >
+            {paused ? (
+              <>
+                <LockIcon size={40} />
+                <span className={styles.pausedTitle}>En pausa</span>
+                <span className={styles.pausedHint}>Toca «Seguir contando» abajo</span>
+              </>
+            ) : (
+              <>
+                <span className={styles.plus} aria-hidden="true">
+                  +1
+                </span>
+                <span className={styles.tapHint}>Toca aquí por cada punto</span>
+              </>
+            )}
+          </button>
+        </div>
 
-      <div className={styles.tapArea}>
-        <button
-          type="button"
-          className={styles.tap}
-          aria-label={paused ? 'Contador en pausa' : 'Sumar un punto'}
-          aria-disabled={paused}
-          onClick={increment}
-        >
-          {paused ? (
-            <>
-              <LockIcon size={40} />
-              <span className={styles.pausedTitle}>En pausa</span>
-              <span className={styles.pausedHint}>Toca «Seguir contando» abajo</span>
-            </>
-          ) : (
-            <>
-              <span className={styles.plus} aria-hidden="true">
-                +1
-              </span>
-              <span className={styles.tapHint}>Toca aquí por cada punto</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      <div className={styles.controls}>
-        <Button
-          variant="secondary"
-          size="control"
-          disabled={paused || thread.count === 0}
-          onClick={() => runWrite(bumpThread(thread.id, -1))}
-        >
-          <MinusIcon size={22} />
-          Quitar uno
-        </Button>
-        <Button
-          variant="secondary"
-          size="control"
-          className={styles.lock}
-          aria-pressed={paused}
-          onClick={() => runWrite(setPaused(!paused))}
-        >
-          {paused ? 'Seguir contando' : 'Pausar'}
-        </Button>
+        <div className={styles.controls}>
+          <Button
+            variant="secondary"
+            size="control"
+            disabled={paused || thread.count === 0}
+            onClick={() => runWrite(bumpThread(thread.id, -1))}
+          >
+            <MinusIcon size={22} />
+            Quitar uno
+          </Button>
+          <Button
+            variant="secondary"
+            size="control"
+            className={styles.lock}
+            aria-pressed={paused}
+            onClick={() => runWrite(setPaused(!paused))}
+          >
+            {paused ? 'Seguir contando' : 'Pausar'}
+          </Button>
+        </div>
       </div>
 
       <ColorSheet

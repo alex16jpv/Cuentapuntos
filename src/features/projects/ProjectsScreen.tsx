@@ -10,27 +10,30 @@ import { EmptyState } from '@/ui/EmptyState';
 import { HoopIcon, PlusIcon } from '@/ui/icons';
 import { ProgressBar } from '@/ui/ProgressBar';
 import { Screen } from '@/ui/Screen';
+import { useMediaQuery, WIDE_SCREEN } from '@/ui/useMediaQuery';
 import styles from './ProjectsScreen.module.css';
 
 export function ProjectsScreen() {
   const summaries = useProjectSummaries();
+  const wide = useMediaQuery(WIDE_SCREEN);
+  const newProject = (
+    <ButtonLink to={paths.newProject} variant="primary" size="lg" className={styles.newProject}>
+      <PlusIcon size={24} />
+      Nuevo proyecto
+    </ButtonLink>
+  );
 
   return (
-    <Screen
-      footerClassName={styles.footer}
-      footer={
-        <ButtonLink to={paths.newProject} variant="primary" size="lg">
-          <PlusIcon size={24} />
-          Nuevo proyecto
-        </ButtonLink>
-      }
-    >
+    <Screen width="wide" footerClassName={styles.footer} footer={!wide && newProject}>
       <header className={styles.header}>
-        <div className={styles.brand}>
-          <HoopIcon size={28} />
-          Mi Bastidor
+        <div className={styles.headline}>
+          <div className={styles.brand}>
+            <HoopIcon size={28} />
+            Mi Bastidor
+          </div>
+          <h1 className={styles.title}>¿Qué bordamos hoy?</h1>
         </div>
-        <h1 className={styles.title}>¿Qué bordamos hoy?</h1>
+        {wide && newProject}
       </header>
       {summaries &&
         (summaries.length === 0 ? (

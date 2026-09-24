@@ -1,4 +1,5 @@
 .empty {
+  max-width: var(--content-narrow);
   display: flex;
   flex-direction: column;
   gap: 10px;

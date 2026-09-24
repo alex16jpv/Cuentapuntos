@@ -1,6 +1,13 @@
 .header {
   padding: var(--header-top) 24px 20px;
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.headline {
+  display: flex;
   flex-direction: column;
   gap: 6px;
 }
@@ -84,4 +91,40 @@
 
 .footer {
   padding: 16px 20px 20px;
+}
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .header {
+    padding-bottom: 28px;
+  }
+
+  .newProject {
+    width: auto;
+    flex-shrink: 0;
+    padding: 0 28px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    padding-bottom: 32px;
+  }
+
+  .list > li {
+    display: flex;
+  }
+
+  .card {
+    height: 100%;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+  .header {
+    padding-top: calc(var(--safe-top) + 20px);
+  }
+
+  .title {
+    font-size: 28px;
+  }
 }
