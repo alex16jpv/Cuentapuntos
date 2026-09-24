@@ -1,0 +1,29 @@
+.top {
+  padding: var(--header-top-tight) 16px 8px;
+}
+
+.body {
+  flex-grow: 1;
+  padding: 8px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.footer {
+  padding: 16px 24px var(--footer-bottom);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form {
+  display: contents;
+}

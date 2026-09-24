@@ -1,0 +1,22 @@
+.screen {
+  min-height: 100dvh;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: var(--header-top) 24px var(--footer-bottom);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.text {
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--color-ink-muted);
+}

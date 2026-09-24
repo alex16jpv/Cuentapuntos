@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<title>Mi Bastidor · Contar</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+body{margin:0;background:#F4EFE6}
+a{color:#2F4A7A}a:hover{color:#1F355C}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; background: #F4EFE6; color: #2B2622; font-family: Figtree, 'Helvetica Neue', sans-serif; font-size: 18px; display: flex; flex-direction: column; overflow: hidden">
+
+  <div style="padding: 52px 20px 4px; display: flex; flex-direction: column; gap: 2px">
+    <div style="font-size: 17px; color: #5A524B">Estás bordando</div>
+    <div style="font-family: Fraunces, Georgia, serif; font-size: 26px; font-weight: 600">Jardín de invierno</div>
+  </div>
+
+  <div style="padding: 12px 20px 0">
+    <button sc-camel-on-click="{{ openColors }}" style="width: 100%; min-height: 68px; border-radius: 18px; border: 2px solid #D8CDBC; background: #FFFFFF; color: #2B2622; display: flex; align-items: center; gap: 14px; padding: 0 16px; font-family: Figtree, sans-serif; cursor: pointer; text-align: left">
+      <span style="width: 40px; height: 40px; border-radius: 20px; background: {{ active.hex }}; border: 1px solid #0000002E; flex-shrink: 0; display: block"></span>
+      <span style="flex-grow: 1; display: flex; flex-direction: column">
+        <span style="font-size: 20px; font-weight: 700">{{ active.name }}</span>
+        <span style="font-size: 15px; color: #5A524B">DMC {{ active.code }}</span>
+      </span>
+      <span style="font-size: 17px; font-weight: 700; color: #2F4A7A">Cambiar</span>
+    </button>
+  </div>
+
+  <div style="padding: 18px 24px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+    <div style="font-family: Fraunces, Georgia, serif; font-size: 96px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">{{ countStr }}</div>
+    <div style="font-size: 19px; color: #5A524B">de {{ targetStr }} puntos</div>
+    <div style="width: 100%; height: 14px; border-radius: 7px; background: #E9E1D4; overflow: hidden; margin-top: 10px">
+      <div style="height: 14px; width: {{ pctStr }}; background: #2F4A7A; border-radius: 7px"></div>
+    </div>
+  </div>
+
+  <div style="padding: 10px 16px; flex-grow: 1; display: flex">
+    <button sc-camel-on-click="{{ inc }}" aria-label="Sumar un punto" style="flex-grow: 1; border: none; border-radius: 28px; background-color: {{ tapBg }}; background-image: repeating-linear-gradient(0deg, #FFFFFF10 0 1px, transparent 1px 12px), repeating-linear-gradient(90deg, #FFFFFF10 0 1px, transparent 1px 12px); color: #F4EFE6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-family: Figtree, sans-serif">
+      <sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
+        <svg width="40" height="40" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+        <span style="font-size: 21px; font-weight: 700">En pausa</span>
+        <span style="font-size: 17px">Toca «Seguir contando» abajo</span>
+      </sc-if>
+      <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ true }}">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 72px; font-weight: 600; line-height: 1">+1</span>
+        <span style="font-size: 19px">Toca aquí por cada punto</span>
+      </sc-if>
+    </button>
+  </div>
+
+  <div style="padding: 4px 16px 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+    <button sc-camel-on-click="{{ dec }}" style="height: 64px; border-radius: 18px; border: 2px solid #D8CDBC; background: #FFFCF7; color: #2B2622; font-family: Figtree, sans-serif; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+      <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"></path></svg>
+      Quitar uno
+    </button>
+    <button sc-camel-on-click="{{ toggleLock }}" aria-pressed="{{ lockedStr }}" style="height: 64px; border-radius: 18px; border: 2px solid {{ lockBorder }}; background: {{ lockBg }}; color: {{ lockFg }}; font-family: Figtree, sans-serif; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+      {{ lockLabel }}
+    </button>
+  </div>
+
+  <nav style="border-top: 1px solid #E2D9CB; background: #FFFCF7; padding: 8px 12px 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px">
+    <a href="Main.dc.html" style="text-decoration: none; color: #5A524B; min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 16px; font-weight: 500"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M8 8l8 8M16 8l-8 8"></path></svg>Proyectos</a>
+    <a href="Contador.dc.html" aria-current="page" style="text-decoration: none; color: #2F4A7A; min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 16px; font-weight: 700"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v8M8 12h8"></path></svg>Contar</a>
+    <a href="Hilos.dc.html" style="text-decoration: none; color: #5A524B; min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 16px; font-weight: 500"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2"></rect><path d="M7 8h10M7 12h10M7 16h10"></path></svg>Hilos</a>
+  </nav>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: #2B262299; display: flex; flex-direction: column; justify-content: flex-end">
+      <div style="background: #F4EFE6; border-radius: 28px 28px 0 0; padding: 24px 20px 36px; display: flex; flex-direction: column; gap: 12px">
+        <div style="font-family: Fraunces, Georgia, serif; font-size: 26px; font-weight: 600; margin-bottom: 4px">¿Qué color vas a usar?</div>
+        <sc-for list="{{ colors }}" as="item" hint-placeholder-count="4">
+          <button sc-camel-on-click="{{ item.pick }}" style="min-height: 68px; border-radius: 18px; border: 2px solid {{ item.ring }}; background: #FFFFFF; color: #2B2622; display: flex; align-items: center; gap: 14px; padding: 0 16px; font-family: Figtree, sans-serif; cursor: pointer; text-align: left">
+            <span style="width: 40px; height: 40px; border-radius: 20px; background: {{ item.hex }}; border: 1px solid #0000002E; flex-shrink: 0; display: block"></span>
+            <span style="flex-grow: 1; display: flex; flex-direction: column">
+              <span style="font-size: 20px; font-weight: 700">{{ item.name }}</span>
+              <span style="font-size: 15px; color: #5A524B">DMC {{ item.code }} · {{ item.countStr }} puntos</span>
+            </span>
+          </button>
+        </sc-for>
+        <a href="AnadirColor.dc.html" style="text-decoration: none; min-height: 60px; border-radius: 18px; border: 2px dashed #B9AC99; color: #2B2622; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Añadir un color</a>
+        <button sc-camel-on-click="{{ closeColors }}" style="height: 60px; border-radius: 18px; border: none; background: transparent; color: #2F4A7A; font-family: Figtree, sans-serif; font-size: 18px; font-weight: 700; cursor: pointer">Cerrar</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;tapColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2B2622&quot;,&quot;options&quot;:[&quot;#2B2622&quot;,&quot;#2F4A7A&quot;,&quot;#7A3527&quot;]},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: 0,
+      locked: false,
+      sheet: false,
+      colors: [
+        { code: '321', name: 'Rojo', hex: '#C72B3B', count: 1248, target: 2400 },
+        { code: '310', name: 'Negro', hex: '#1E1B1A', count: 640, target: 900 },
+        { code: '3865', name: 'Blanco', hex: '#F7F3EA', count: 312, target: 1100 },
+        { code: '699', name: 'Verde', hex: '#1F6B3A', count: 0, target: 560 }
+      ]
+    };
+  }
+  bump(delta) {
+    if (this.state.locked) return;
+    const colors = this.state.colors.map((c, i) =>
+      i === this.state.active ? { ...c, count: Math.max(0, c.count + delta) } : c);
+    this.setState({ colors });
+  }
+  renderVals() {
+    const fmt = (n) => n.toLocaleString('es-ES', { useGrouping: 'always' });
+    const s = this.state;
+    const a = s.colors[s.active];
+    const pct = Math.min(100, Math.round((a.count / a.target) * 100));
+    return {
+      colors: s.colors.map((c, i) => ({
+        ...c,
+        countStr: fmt(c.count),
+        ring: i === s.active ? '#2F4A7A' : '#E2D9CB',
+        pick: () => this.setState({ active: i, sheet: false })
+      })),
+      active: a,
+      countStr: fmt(a.count),
+      targetStr: fmt(a.target),
+      pctStr: pct + '%',
+      locked: s.locked,
+      unlocked: !s.locked,
+      sheetOpen: s.sheet,
+      lockedStr: s.locked ? 'true' : 'false',
+      lockLabel: s.locked ? 'Seguir contando' : 'Pausar',
+      lockBg: s.locked ? '#2F4A7A' : '#FFFCF7',
+      lockFg: s.locked ? '#FFFFFF' : '#2B2622',
+      lockBorder: s.locked ? '#2F4A7A' : '#D8CDBC',
+      tapBg: s.locked ? '#5E564F' : (this.props.tapColor ?? '#2B2622'),
+      inc: () => this.bump(1),
+      dec: () => this.bump(-1),
+      toggleLock: () => this.setState({ locked: !s.locked }),
+      openColors: () => this.setState({ sheet: true }),
+      closeColors: () => this.setState({ sheet: false })
+    };
+  }
+}
+</script>
+
+
+</body></html>

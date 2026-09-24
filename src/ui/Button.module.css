@@ -1,0 +1,82 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  user-select: none;
+  transition:
+    transform 80ms ease-out,
+    filter 80ms ease-out;
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.md {
+  min-height: 60px;
+  font-size: 18px;
+}
+
+.lg {
+  min-height: 64px;
+  font-size: 20px;
+}
+
+.control {
+  min-height: 64px;
+  font-size: 18px;
+}
+
+.xl {
+  min-height: 68px;
+  font-size: 21px;
+}
+
+.primary,
+.primary:hover {
+  border: none;
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+
+.secondary,
+.secondary:hover {
+  border: 2px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.dashed,
+.dashed:hover {
+  border: 2px dashed var(--color-border-input);
+  background: transparent;
+  color: var(--color-ink);
+}
+
+.ghost,
+.ghost:hover {
+  border: none;
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.danger,
+.danger:hover {
+  border: 2px solid var(--color-danger);
+  background: var(--color-surface);
+  color: var(--color-danger);
+}
+
+.dangerSolid,
+.dangerSolid:hover {
+  border: none;
+  background: var(--color-danger);
+  color: var(--color-on-accent);
+}

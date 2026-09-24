@@ -1,0 +1,5 @@
+.swatch {
+  display: block;
+  flex-shrink: 0;
+  border: 1px solid var(--color-swatch-edge);
+}

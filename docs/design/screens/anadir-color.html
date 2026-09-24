@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<title>Mi Bastidor · Añadir color</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+body{margin:0;background:#F4EFE6}
+a{color:#2F4A7A}a:hover{color:#1F355C}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 900px; box-sizing: border-box; background: #F4EFE6; color: #2B2622; font-family: Figtree, 'Helvetica Neue', sans-serif; font-size: 18px; display: flex; flex-direction: column">
+
+  <sc-if value="{{ picking }}" hint-placeholder-val="{{ true }}">
+    <div style="padding: 52px 16px 0">
+      <a href="Hilos.dc.html" style="text-decoration: none; color: #2B2622; height: 48px; padding: 0 8px; display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 600">
+        <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+        Volver
+      </a>
+    </div>
+    <div style="padding: 4px 24px 16px; display: flex; flex-direction: column; gap: 6px">
+      <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 32px">Añadir un color</h1>
+      <div style="font-size: 18px; color: #5A524B; line-height: 1.35">Toca el color que más se parece a tu hilo.</div>
+    </div>
+
+    <div style="padding: 0 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{ palette }}" as="item" hint-placeholder-count="12">
+        <button sc-camel-on-click="{{ item.pick }}" aria-pressed="{{ item.pressed }}" style="height: 88px; border-radius: 18px; border: 3px solid {{ item.ring }}; background: {{ item.bg }}; color: #2B2622; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-family: Figtree, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer">
+          <span style="width: 40px; height: 40px; border-radius: 20px; background: {{ item.hex }}; border: 1px solid #0000002E; display: block"></span>
+          {{ item.name }}
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="padding: 20px 24px 0; display: flex; flex-direction: column; gap: 8px">
+      <label for="ac-codigo" style="font-size: 18px; font-weight: 700">¿Tienes el número del hilo? <span style="font-weight: 500; color: #5A524B">(opcional)</span></label>
+      <input id="ac-codigo" type="text" inputmode="numeric" placeholder="Ej. 321" value="{{ code }}" sc-camel-on-input="{{ onCode }}" style="height: 60px; border-radius: 16px; border: 2px solid #B9AC99; background: #FFFFFF; padding: 0 18px; font-family: Figtree, sans-serif; font-size: 20px; color: #2B2622">
+      <span style="font-size: 16px; color: #5A524B">Viene en la etiqueta de la madeja.</span>
+    </div>
+
+    <div style="flex-grow: 1"></div>
+    <div style="padding: 16px 24px 40px">
+      <sc-if value="{{ hasPick }}" hint-placeholder-val="{{ true }}">
+        <button sc-camel-on-click="{{ confirm }}" style="width: 100%; height: 68px; border: none; border-radius: 18px; background: #2B2622; color: #F4EFE6; font-family: Figtree, sans-serif; font-size: 21px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer">
+          <span style="width: 28px; height: 28px; border-radius: 14px; background: {{ sel.hex }}; border: 2px solid #F4EFE6; display: block"></span>
+          Añadir {{ sel.name }}
+        </button>
+      </sc-if>
+      <sc-if value="{{ noPick }}" hint-placeholder-val="{{ false }}">
+        <div style="height: 68px; border-radius: 18px; border: 2px dashed #B9AC99; color: #5A524B; display: flex; align-items: center; justify-content: center; font-size: 18px">Primero elige un color</div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+    <div style="flex-grow: 1; padding: 120px 28px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px">
+      <div style="width: 120px; height: 120px; border-radius: 60px; background: {{ sel.hex }}; border: 1px solid #0000002E"></div>
+      <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 32px">¡Listo!</h1>
+      <div style="font-size: 20px; line-height: 1.4">Añadiste <strong>{{ sel.name }}</strong> {{ codeLine }} a Jardín de invierno.</div>
+      <div style="flex-grow: 1"></div>
+      <a href="Contador.dc.html" style="text-decoration: none; width: 100%; height: 68px; border-radius: 18px; background: #2B2622; color: #F4EFE6; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700">Contar con este color</a>
+      <a href="Hilos.dc.html" style="text-decoration: none; width: 100%; height: 60px; border-radius: 18px; border: 2px solid #D8CDBC; background: #FFFCF7; color: #2B2622; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700">Volver a mis hilos</a>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: -1, code: '', done: false };
+    this.palette = [
+      { name: 'Negro', hex: '#1E1B1A', dmc: '310' },
+      { name: 'Blanco', hex: '#FFFFFF', dmc: 'B5200' },
+      { name: 'Gris', hex: '#B9B9BB', dmc: '415' },
+      { name: 'Rojo', hex: '#C72B3B', dmc: '321' },
+      { name: 'Rosa', hex: '#EE9BA6', dmc: '3326' },
+      { name: 'Naranja', hex: '#F07A22', dmc: '740' },
+      { name: 'Amarillo', hex: '#F4D23E', dmc: '307' },
+      { name: 'Verde', hex: '#1F6B3A', dmc: '699' },
+      { name: 'Celeste', hex: '#8CC3E6', dmc: '3325' },
+      { name: 'Azul', hex: '#1E4A9C', dmc: '797' },
+      { name: 'Lila', hex: '#8A63A6', dmc: '208' },
+      { name: 'Marrón', hex: '#6B4226', dmc: '433' }
+    ];
+  }
+  renderVals() {
+    const s = this.state;
+    const sel = s.picked >= 0 ? this.palette[s.picked] : { name: '', hex: 'transparent' };
+    return {
+      palette: this.palette.map((p, i) => ({
+        ...p,
+        ring: i === s.picked ? '#2F4A7A' : '#E2D9CB',
+        bg: i === s.picked ? '#FFFFFF' : '#FFFCF7',
+        pressed: i === s.picked ? 'true' : 'false',
+        pick: () => this.setState({ picked: i, code: p.dmc })
+      })),
+      sel,
+      code: s.code,
+      codeLine: s.code ? '(DMC ' + s.code + ')' : '',
+      hasPick: s.picked >= 0,
+      noPick: s.picked < 0,
+      picking: !s.done,
+      done: s.done,
+      onCode: (e) => {
+        const v = e.target.value.trim();
+        const i = this.palette.findIndex((p) => p.dmc.toLowerCase() === v.toLowerCase());
+        this.setState(i >= 0 ? { code: v, picked: i } : { code: v });
+      },
+      confirm: () => this.setState({ done: true })
+    };
+  }
+}
+</script>
+
+
+</body></html>
