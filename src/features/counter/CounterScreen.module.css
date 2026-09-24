@@ -133,6 +133,91 @@
   font-size: 17px;
 }
 
+.finishRow {
+  padding: 0 16px 12px;
+}
+
+.rowLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 12px;
+}
+
+.rowLabel {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.rowOf {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.rowStitches {
+  margin-top: 8px;
+  font-size: 20px;
+  color: var(--color-ink-muted);
+}
+
+.rowStitches strong {
+  color: var(--color-ink);
+}
+
+.finished {
+  flex-grow: 1;
+  border-radius: var(--radius-2xl);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.finishedIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-on-accent);
+  color: var(--color-accent);
+}
+
+.finishedTitle {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.finished > a,
+.finished > button:not(.moreRows) {
+  width: min(100%, 360px);
+}
+
+.moreRows {
+  min-height: 48px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-on-accent);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .controls {
   padding: 4px 16px 16px;
   display: grid;

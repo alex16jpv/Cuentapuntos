@@ -1,24 +1,27 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { Swatch } from './Swatch';
-import styles from './ThreadOption.module.css';
+import type { Technique } from '@/domain/part';
+import { PartBadge } from './PartBadge';
+import styles from './PartOption.module.css';
 
-interface ThreadOptionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  hex: string;
+interface PartOptionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  hex: string | null;
+  technique: Technique;
   name: string;
   detail: ReactNode;
   action?: ReactNode;
   tone?: 'default' | 'selected' | 'strong';
 }
 
-export function ThreadOption({
+export function PartOption({
   hex,
+  technique,
   name,
   detail,
   action,
   tone = 'default',
   className,
   ...rest
-}: ThreadOptionProps) {
+}: PartOptionProps) {
   const toneClass = tone === 'default' ? undefined : styles[tone];
   return (
     <button
@@ -26,10 +29,10 @@ export function ThreadOption({
       className={[styles.option, toneClass, className].filter(Boolean).join(' ')}
       {...rest}
     >
-      <Swatch hex={hex} size={40} />
+      <PartBadge hex={hex} technique={technique} size={40} />
       <span className={styles.text}>
         <span className={styles.name}>{name}</span>
-        <span className={styles.detail}>{detail}</span>
+        {detail && <span className={styles.detail}>{detail}</span>}
       </span>
       {action && <span className={styles.action}>{action}</span>}
     </button>

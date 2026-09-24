@@ -95,3 +95,50 @@
     padding: 0 28px;
   }
 }
+
+.presets {
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.preset {
+  min-height: 64px;
+  padding: 8px 12px;
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.preset[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-surface-raised);
+}
+
+.quantity {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quantityLabel {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.hint {
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-ink-muted);
+}
+
+@media (min-width: 768px), (orientation: landscape) and (min-width: 600px) {
+  .presets {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

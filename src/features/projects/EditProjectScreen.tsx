@@ -4,6 +4,7 @@ import { reportWriteError } from '@/app/errors';
 import { paths } from '@/app/paths';
 import { deleteProject, updateProject } from '@/data/projects';
 import { useProject } from '@/data/queries';
+import { techniqueOf } from '@/domain/techniques';
 import { Button } from '@/ui/Button';
 import { ConfirmSheet } from '@/ui/ConfirmSheet';
 import { useGoBack } from '@/ui/useGoBack';
@@ -13,7 +14,7 @@ export function EditProjectScreen() {
   const { projectId } = useParams();
   const project = useProject(projectId);
   const navigate = useNavigate();
-  const goBack = useGoBack(paths.threads);
+  const goBack = useGoBack(paths.parts);
   const [confirming, setConfirming] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
@@ -24,9 +25,10 @@ export function EditProjectScreen() {
     <>
       <ProjectForm
         key={project.id}
+        technique={techniqueOf(project.technique)}
         title="Editar proyecto"
         submitLabel="Guardar cambios"
-        backTo={paths.threads}
+        backTo={paths.parts}
         initial={{ name: project.name, target: project.target }}
         onSubmit={async (input) => {
           await updateProject(project.id, input);
@@ -41,7 +43,7 @@ export function EditProjectScreen() {
       <ConfirmSheet
         open={confirming}
         title={`¿Borrar «${project.name}»?`}
-        message="Se borrarán también sus colores y todos los puntos contados. No se puede deshacer."
+        message={`Se borrará también todo lo que llevas contado en sus ${techniqueOf(project.technique).part.many}. No se puede deshacer.`}
         confirmLabel="Sí, borrar"
         onCancel={() => setConfirming(false)}
         onConfirm={() => {

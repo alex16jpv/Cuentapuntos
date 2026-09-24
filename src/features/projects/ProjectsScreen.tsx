@@ -1,21 +1,24 @@
 import { useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { APP_NAME } from '@/app/brand';
 import { reportWriteError } from '@/app/errors';
 import { paths } from '@/app/paths';
 import { openProject } from '@/data/projects';
 import { useProjectSummaries, type ProjectSummary } from '@/data/queries';
-import { formatNumber } from '@/domain/format';
+import { techniqueOf } from '@/domain/techniques';
 import { ButtonLink } from '@/ui/Button';
-import { EmptyState } from '@/ui/EmptyState';
-import { HoopIcon, PlusIcon } from '@/ui/icons';
+import { BrandIcon, PlusIcon, SettingsIcon } from '@/ui/icons';
+import { projectLine } from '@/ui/partText';
 import { ProgressBar } from '@/ui/ProgressBar';
 import { Screen } from '@/ui/Screen';
+import { TechniqueIcon } from '@/ui/TechniqueIcon';
 import { useMediaQuery, WIDE_SCREEN } from '@/ui/useMediaQuery';
 import styles from './ProjectsScreen.module.css';
 
 export function ProjectsScreen() {
   const summaries = useProjectSummaries();
   const wide = useMediaQuery(WIDE_SCREEN);
+  const empty = summaries?.length === 0;
   const newProject = (
     <ButtonLink to={paths.newProject} variant="primary" size="lg" className={styles.newProject}>
       <PlusIcon size={24} />
@@ -24,24 +27,30 @@ export function ProjectsScreen() {
   );
 
   return (
-    <Screen width="wide" footerClassName={styles.footer} footer={!wide && newProject}>
+    <Screen
+      width="wide"
+      footerClassName={styles.footer}
+      footer={!wide && summaries && !empty && newProject}
+    >
       <header className={styles.header}>
         <div className={styles.headline}>
-          <div className={styles.brand}>
-            <HoopIcon size={28} />
-            Mi Bastidor
+          <div className={styles.brandRow}>
+            <div className={styles.brand}>
+              <BrandIcon size={28} />
+              {APP_NAME}
+            </div>
+            <Link to={paths.settings} className={styles.settings}>
+              <SettingsIcon size={24} />
+              Ajustes
+            </Link>
           </div>
-          <h1 className={styles.title}>¿Qué bordamos hoy?</h1>
+          <h1 className={styles.title}>¿Qué hacemos hoy?</h1>
         </div>
-        {wide && newProject}
+        {wide && summaries && !empty && newProject}
       </header>
       {summaries &&
-        (summaries.length === 0 ? (
-          <div className={styles.empty}>
-            <EmptyState title="Aún no tienes proyectos">
-              Crea el primero con el botón «Nuevo proyecto» y empieza a contar tus puntos.
-            </EmptyState>
-          </div>
+        (empty ? (
+          <Welcome />
         ) : (
           <ul className={styles.list}>
             {summaries.map((summary) => (
@@ -55,9 +64,27 @@ export function ProjectsScreen() {
   );
 }
 
-function ProjectCard({ summary: { project, progress } }: { summary: ProjectSummary }) {
+function Welcome() {
+  return (
+    <div className={styles.welcome}>
+      <p className={styles.welcomeTitle}>¡Hola!</p>
+      <p className={styles.welcomeText}>
+        Aquí puedes llevar la cuenta de tus labores: puntos, vueltas y colores.
+      </p>
+      <p className={styles.welcomeText}>Todo se guarda en este aparato y funciona sin internet.</p>
+      <ButtonLink to={paths.newProject} variant="primary" size="xl">
+        <PlusIcon size={24} />
+        Crear mi primer proyecto
+      </ButtonLink>
+    </div>
+  );
+}
+
+function ProjectCard({ summary: { project, summary } }: { summary: ProjectSummary }) {
   const navigate = useNavigate();
   const busy = useRef(false);
+  const technique = techniqueOf(project.technique);
+
   const resume = async () => {
     if (busy.current) return;
     busy.current = true;
@@ -73,15 +100,19 @@ function ProjectCard({ summary: { project, progress } }: { summary: ProjectSumma
 
   return (
     <button type="button" className={styles.card} onClick={() => void resume()}>
+      <span className={styles.technique}>
+        <TechniqueIcon technique={project.technique} size={22} />
+        {technique.label}
+      </span>
       <span className={styles.row}>
         <span className={styles.name}>{project.name}</span>
-        {progress.percent !== null && <span className={styles.percent}>{progress.percent}%</span>}
+        {summary.percent !== null && <span className={styles.percent}>{summary.percent}%</span>}
       </span>
-      {progress.percent !== null && (
-        <ProgressBar value={progress.percent} label={`Progreso de ${project.name}`} />
+      {summary.percent !== null && (
+        <ProgressBar value={summary.percent} label={`Progreso de ${project.name}`} />
       )}
       <span className={styles.row}>
-        <span className={styles.count}>{formatNumber(progress.count)} puntos</span>
+        <span className={styles.count}>{projectLine(summary, technique)}</span>
         <span className={styles.cta}>Seguir</span>
       </span>
     </button>

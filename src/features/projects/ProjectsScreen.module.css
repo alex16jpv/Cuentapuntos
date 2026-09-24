@@ -7,9 +7,69 @@
 }
 
 .headline {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings,
+.settings:hover {
+  min-height: 48px;
+  margin: -8px -8px -8px 0;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-ink-muted);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+.technique {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.welcome {
+  margin: 0 20px;
+  max-width: var(--content-narrow);
+  padding: 28px 24px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.welcomeTitle {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.welcomeText {
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.welcome > a {
+  margin-top: 8px;
 }
 
 .brand {
@@ -83,10 +143,6 @@
   font-size: 17px;
   font-weight: 700;
   color: var(--color-accent);
-}
-
-.empty {
-  padding: 0 20px;
 }
 
 .footer {

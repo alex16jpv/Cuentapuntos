@@ -2,18 +2,18 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { reportWriteError } from '@/app/errors';
 import { paths, type ReturnState } from '@/app/paths';
-import { useWorkspace } from '@/data/queries';
-import { selectThread } from '@/data/threads';
-import type { Thread } from '@/domain/types';
+import { selectPart } from '@/data/parts';
+import { useWorkspace, type Workspace } from '@/data/queries';
+import { isFinished, type Part } from '@/domain/part';
 import { ButtonLink } from '@/ui/Button';
 import { EmptyState } from '@/ui/EmptyState';
-import { PencilIcon, PlusIcon } from '@/ui/icons';
+import { CheckIcon, PencilIcon, PlusIcon } from '@/ui/icons';
+import { PartBadge } from '@/ui/PartBadge';
+import { partSummary } from '@/ui/partText';
 import { Screen } from '@/ui/Screen';
-import { Swatch } from '@/ui/Swatch';
-import { threadSummary } from '@/ui/threadText';
-import styles from './ThreadsScreen.module.css';
+import styles from './PartsScreen.module.css';
 
-export function ThreadsScreen() {
+export function PartsScreen() {
   const workspace = useWorkspace();
 
   if (workspace === undefined) return <Screen width="wide">{null}</Screen>;
@@ -22,11 +22,11 @@ export function ThreadsScreen() {
     return (
       <Screen width="wide">
         <header className={styles.header}>
-          <h1 className={styles.title}>Hilos</h1>
+          <h1 className={styles.title}>Piezas y colores</h1>
         </header>
         <div className={styles.empty}>
           <EmptyState title="No hay ningún proyecto abierto">
-            Los hilos se guardan dentro de cada proyecto. Crea uno para empezar.
+            Los colores y las piezas se guardan dentro de cada proyecto. Crea uno para empezar.
           </EmptyState>
           <ButtonLink to={paths.newProject} variant="primary" size="lg">
             <PlusIcon size={24} />
@@ -37,7 +37,7 @@ export function ThreadsScreen() {
     );
   }
 
-  const { project, threads, activeThread } = workspace;
+  const { project, technique, parts, activePart } = workspace;
 
   return (
     <Screen width="wide">
@@ -52,44 +52,55 @@ export function ThreadsScreen() {
             Editar
           </Link>
         </div>
-        <h1 className={styles.title}>Hilos</h1>
+        <h1 className={styles.title}>{technique.part.tab}</h1>
       </header>
       <div className={styles.list}>
-        {threads.length > 0 ? (
+        {parts.length > 0 ? (
           <ul className={styles.items}>
-            {threads.map((thread) => (
-              <li key={thread.id}>
-                <ThreadCard thread={thread} active={thread.id === activeThread?.id} />
+            {parts.map((part) => (
+              <li key={part.id}>
+                <PartCard workspace={workspace} part={part} active={part.id === activePart?.id} />
               </li>
             ))}
           </ul>
         ) : (
-          <EmptyState title="Aún no hay colores" className={styles.noThreads}>
-            Añade los colores de hilo que vas a usar en este proyecto.
+          <EmptyState title={technique.part.empty} className={styles.noParts}>
+            {technique.part.emptyHint}
           </EmptyState>
         )}
         <ButtonLink
-          to={paths.newThread(project.id)}
-          state={{ from: paths.threads } satisfies ReturnState}
+          to={paths.newPart(project.id)}
+          state={{ from: paths.parts } satisfies ReturnState}
           variant="dashed"
           size="md"
         >
           <PlusIcon size={22} />
-          Añadir un color
+          {technique.part.add}
         </ButtonLink>
       </div>
     </Screen>
   );
 }
 
-function ThreadCard({ thread, active }: { thread: Thread; active: boolean }) {
+function PartCard({
+  workspace,
+  part,
+  active,
+}: {
+  workspace: Workspace;
+  part: Part;
+  active: boolean;
+}) {
+  const { project, technique } = workspace;
   const navigate = useNavigate();
   const busy = useRef(false);
-  const countWithThread = async () => {
+  const finished = technique.mode === 'rows' && isFinished(part);
+
+  const countWithPart = async () => {
     if (busy.current) return;
     busy.current = true;
     try {
-      await selectThread(thread.id);
+      await selectPart(part.id);
       await navigate(paths.count);
     } catch (error) {
       reportWriteError(error);
@@ -100,21 +111,27 @@ function ThreadCard({ thread, active }: { thread: Thread; active: boolean }) {
 
   return (
     <div className={[styles.card, active && styles.active].filter(Boolean).join(' ')}>
-      <button type="button" className={styles.select} onClick={() => void countWithThread()}>
-        <Swatch hex={thread.hex} size={56} radius={14} />
+      <button type="button" className={styles.select} onClick={() => void countWithPart()}>
+        <PartBadge hex={part.hex} technique={project.technique} size={56} radius={14} />
         <span className={styles.text}>
           <span className={styles.nameRow}>
-            <span className={styles.name}>{thread.name}</span>
-            {active && <span className={styles.inUse}>En uso</span>}
+            <span className={styles.name}>{part.name}</span>
+            {active && !finished && <span className={styles.inUse}>{technique.part.inUse}</span>}
+            {finished && (
+              <span className={styles.done}>
+                <CheckIcon size={18} />
+                Terminada
+              </span>
+            )}
           </span>
-          <span className={styles.detail}>{threadSummary(thread, { notStartedLabel: true })}</span>
+          {!finished && (
+            <span className={styles.detail}>
+              {partSummary(part, technique, { notStartedLabel: true })}
+            </span>
+          )}
         </span>
       </button>
-      <Link
-        to={paths.editThread(thread.id)}
-        className={styles.edit}
-        aria-label={`Editar ${thread.name}`}
-      >
+      <Link to={paths.editPart(part.id)} className={styles.edit} aria-label={`Editar ${part.name}`}>
         <PencilIcon size={22} />
       </Link>
     </div>

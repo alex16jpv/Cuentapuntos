@@ -1,7 +1,12 @@
-import type { Preferences } from '@/domain/types';
+import type { Preferences, TextScale } from '@/domain/types';
 import { db } from './db';
 
-const DEFAULT_PREFERENCES: Preferences = { id: 'app', currentProjectId: null, paused: false };
+const DEFAULT_PREFERENCES: Preferences = {
+  id: 'app',
+  currentProjectId: null,
+  paused: false,
+  textScale: 'normal',
+};
 
 export async function getPreferences(): Promise<Preferences> {
   return { ...DEFAULT_PREFERENCES, ...(await db.preferences.get('app')) };
@@ -16,4 +21,8 @@ export async function updatePreferences(changes: Partial<Omit<Preferences, 'id'>
 
 export function setPaused(paused: boolean): Promise<void> {
   return updatePreferences({ paused });
+}
+
+export function setTextScale(textScale: TextScale): Promise<void> {
+  return updatePreferences({ textScale });
 }

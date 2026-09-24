@@ -46,6 +46,24 @@
   color: var(--color-on-ink);
 }
 
+.accent,
+.accent:hover {
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.onDark,
+.onDark:hover {
+  border: none;
+  background: var(--color-on-ink);
+  color: var(--color-ink);
+}
+
+.button:disabled {
+  opacity: 0.45;
+}
+
 .secondary,
 .secondary:hover {
   border: 2px solid var(--color-border-strong);

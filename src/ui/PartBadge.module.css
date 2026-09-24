@@ -1,0 +1,8 @@
+.badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-track);
+  color: var(--color-accent);
+}

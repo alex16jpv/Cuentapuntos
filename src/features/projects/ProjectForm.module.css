@@ -10,6 +10,21 @@
   gap: 32px;
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.technique {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
 .title {
   font-family: var(--font-serif);
   font-weight: 600;

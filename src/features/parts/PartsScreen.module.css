@@ -107,6 +107,15 @@
   color: var(--color-accent);
 }
 
+.done {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
 .detail {
   font-size: 16px;
   color: var(--color-ink-muted);
@@ -152,7 +161,7 @@
   }
 
   .list > a,
-  .noThreads {
+  .noParts {
     max-width: 480px;
   }
 
