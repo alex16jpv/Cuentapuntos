@@ -1,6 +1,8 @@
-# Mi Bastidor
+# Mis Labores
 
-Offline-first Progressive Web App to count embroidery stitches, color by color.
+Offline-first Progressive Web App to count stitches, rows and colors for embroidery, crochet,
+knitting or any other craft. Designed for an older person: large text, large buttons, one main
+action per screen.
 Everything is stored in the browser (IndexedDB); there is no backend and no account.
 
 ## Requirements
@@ -40,14 +42,15 @@ src/
   app/        Shell, bottom navigation and route table
   data/       Dexie database, repository functions and live-query hooks
   domain/     Pure types and logic (progress, formatting, palette) — no React, no IndexedDB
-  features/   One folder per area: projects, counter, threads
+  features/   One folder per area: projects, counter, parts, settings
   pwa/        Service worker update prompt
   styles/     Design tokens and global styles
   ui/         Reusable presentational components
   test/       Test setup and helpers
 docs/
   ARCHITECTURE.md   Decisions and how to extend the app
-  design/           The original design file and one readable HTML per screen
+  design/           v1 design file and screens; v2 reference screenshots in design/v2
+  work/             Plans and decision logs for larger efforts
 ```
 
 ## Roadmap

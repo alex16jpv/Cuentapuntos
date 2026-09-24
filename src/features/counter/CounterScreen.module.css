@@ -225,6 +225,10 @@
   gap: 12px;
 }
 
+.single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .lock[aria-pressed='true'],
 .lock[aria-pressed='true']:hover {
   border-color: var(--color-accent);
@@ -256,12 +260,40 @@
     margin-top: 6px;
   }
 
-  .tapArea {
-    min-height: 120px;
-  }
-
   .plus {
     font-size: 3.5rem;
+  }
+
+  .eyebrow {
+    display: none;
+  }
+
+  .current {
+    padding-top: 8px;
+  }
+
+  .rowLabel,
+  .rowOf {
+    font-size: 1.5rem;
+  }
+
+  .rowStitches {
+    margin-top: 4px;
+    font-size: 1.125rem;
+  }
+
+  .tapArea {
+    min-height: 88px;
+    padding-block: 8px;
+  }
+
+  .tapHint {
+    font-size: 1.0625rem;
+  }
+
+  .finishRow,
+  .controls {
+    padding-bottom: 8px;
   }
 }
 

@@ -38,7 +38,7 @@ Out of scope: backup (next recommended feature).
 - [x] T8 Parts list and project cards per technique; dynamic tab label
 - [x] T9 Text size setting (rem), settings screen, first-run welcome
 - [x] T10 Name, icon, manifest, copy review
-- [ ] T11 Visual verification (phone, tablet, desktop, landscape), screenshots to docs/design/v2,
+- [x] T11 Visual verification (phone, tablet, desktop, landscape), screenshots to docs/design/v2,
       update README and ARCHITECTURE
 - [ ] T12 Reviews in parallel: task review (unbiased), code quality review, UX review for the
       target audience; apply fixes
@@ -72,3 +72,6 @@ old UI; the Settings link on Proyectos points to `/settings`, which T9 creates.
 | 19  | Icon                                        | Embroidery hoop · ball of yarn with needle                  | Ball of yarn with needle                                                                                                           | Reads as "handicrafts" for every technique                                                                             |
 | 20  | Database name                               | Rename to mis-labores · keep mi-bastidor                    | Keep `mi-bastidor` internally                                                                                                      | Renaming would orphan data already saved on the device                                                                 |
 | 21  | Gendered copy                               | "¡Cabeza terminada!" · neutral                              | "¡Terminaste Cabeza!"                                                                                                              | Piece names can be masculine or feminine ("Cuerpo", "Oreja")                                                           |
+| 22  | Small screens with extra-large text         | Scroll to reach buttons · compact layout                    | Compact counter under 740px tall (hides "Estás tejiendo", smaller row label)                                                       | All controls stay visible without scrolling at 375×667 with 130% text                                                  |
+| 23  | Finished piece controls                     | Keep "Pausar" disabled · hide it                            | Hidden; "Quitar uno" full width                                                                                                    | A greyed-out button invites a confused tap                                                                             |
+| 24  | Project card line (rows)                    | "26 vueltas · 1 de 4 piezas terminadas" · shorter           | "1 de 4 piezas terminadas" (single piece: "N vueltas")                                                                             | Fits on one line with large text                                                                                       |

@@ -38,5 +38,5 @@ export function projectLine(summary: ProjectSummaryData, technique: TechniqueInf
   if (!row) return stitchesLabel(summary.stitches);
   const rows = summary.rows === 1 ? `1 ${row.one}` : `${formatNumber(summary.rows)} ${row.many}`;
   if (summary.partsTotal <= 1) return capitalize(rows);
-  return `${capitalize(rows)} · ${summary.partsDone} de ${summary.partsTotal} ${technique.part.many} terminadas`;
+  return `${summary.partsDone} de ${summary.partsTotal} ${technique.part.many} terminadas`;
 }

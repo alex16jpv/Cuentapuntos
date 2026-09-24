@@ -120,7 +120,7 @@ function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
           </div>
         )}
 
-        <div className={styles.controls}>
+        <div className={[styles.controls, finished && styles.single].filter(Boolean).join(' ')}>
           <Button
             variant="secondary"
             size="control"
@@ -130,16 +130,17 @@ function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
             <MinusIcon size={22} />
             Quitar uno
           </Button>
-          <Button
-            variant="secondary"
-            size="control"
-            className={styles.lock}
-            aria-pressed={paused}
-            disabled={finished}
-            onClick={() => runWrite(setPaused(!paused))}
-          >
-            {paused ? 'Seguir contando' : 'Pausar'}
-          </Button>
+          {!finished && (
+            <Button
+              variant="secondary"
+              size="control"
+              className={styles.lock}
+              aria-pressed={paused}
+              onClick={() => runWrite(setPaused(!paused))}
+            >
+              {paused ? 'Seguir contando' : 'Pausar'}
+            </Button>
+          )}
         </div>
       </div>
 

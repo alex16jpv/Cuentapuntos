@@ -58,7 +58,7 @@ describe('crochet', () => {
     await user.click(screen.getByRole('link', { name: 'Proyectos' }));
     const card = await screen.findByRole('button', { name: /Osito/ });
     expect(card).toHaveTextContent('Ganchillo');
-    expect(card).toHaveTextContent('2 vueltas · 1 de 2 piezas terminadas');
+    expect(card).toHaveTextContent('1 de 2 piezas terminadas');
     expect(card).toHaveTextContent('50%');
   });
 
