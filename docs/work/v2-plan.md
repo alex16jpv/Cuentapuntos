@@ -40,7 +40,7 @@ Out of scope: backup (next recommended feature).
 - [x] T10 Name, icon, manifest, copy review
 - [x] T11 Visual verification (phone, tablet, desktop, landscape), screenshots to docs/design/v2,
       update README and ARCHITECTURE
-- [ ] T12 Reviews in parallel: task review (unbiased), code quality review, UX review for the
+- [ ] T12 (in progress: 3 reviews launched; if resuming, relaunch them) Reviews in parallel: task review (unbiased), code quality review, UX review for the
       target audience; apply fixes
 - [ ] T13 Final report: decisions list, how to test
 
