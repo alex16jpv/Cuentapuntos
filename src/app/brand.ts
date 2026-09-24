@@ -1,1 +1,1 @@
-export const APP_NAME = 'Mis Labores';
+export const APP_NAME = 'Cuentapuntos';

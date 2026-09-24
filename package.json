@@ -1,5 +1,5 @@
 {
-  "name": "mis-labores",
+  "name": "cuentapuntos",
   "version": "0.1.0",
   "description": "Offline-first PWA to count stitches, rows and colors for embroidery, crochet and knitting.",
   "scripts": {

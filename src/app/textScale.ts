@@ -8,7 +8,7 @@ export const TEXT_SCALES: readonly { id: TextScale; label: string; size: string 
   { id: 'extra', label: 'Muy grande', size: '130%' },
 ];
 
-const STORAGE_KEY = 'mis-labores:text-scale';
+const STORAGE_KEY = 'cuentapuntos:text-scale';
 
 function sizeOf(scale: string | null): string | null {
   return TEXT_SCALES.find((s) => s.id === scale)?.size ?? null;

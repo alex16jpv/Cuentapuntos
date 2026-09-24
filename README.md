@@ -1,4 +1,4 @@
-# Mis Labores
+# Cuentapuntos
 
 Offline-first Progressive Web App to count stitches, rows and colors for embroidery, crochet,
 knitting or any other craft. Designed for an older person: large text, large buttons, one main

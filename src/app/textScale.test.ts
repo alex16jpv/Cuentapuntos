@@ -3,13 +3,13 @@ import { applyStoredTextScale, applyTextScale } from './textScale';
 
 describe('text scale', () => {
   it('applies the stored size at startup', () => {
-    localStorage.setItem('mis-labores:text-scale', 'large');
+    localStorage.setItem('cuentapuntos:text-scale', 'large');
     applyStoredTextScale();
     expect(document.documentElement.style.fontSize).toBe('115%');
   });
 
   it('ignores unknown stored values', () => {
-    localStorage.setItem('mis-labores:text-scale', 'huge');
+    localStorage.setItem('cuentapuntos:text-scale', 'huge');
     applyStoredTextScale();
     expect(document.documentElement.style.fontSize).toBe('');
   });
@@ -17,6 +17,6 @@ describe('text scale', () => {
   it('remembers what it applies', () => {
     applyTextScale('extra');
     expect(document.documentElement.style.fontSize).toBe('130%');
-    expect(localStorage.getItem('mis-labores:text-scale')).toBe('extra');
+    expect(localStorage.getItem('cuentapuntos:text-scale')).toBe('extra');
   });
 });

@@ -1,4 +1,4 @@
-# Architecture — Mis Labores
+# Architecture — Cuentapuntos
 
 ## Stack
 
@@ -73,7 +73,7 @@ example in `ProjectForm`. TypeScript points at anything else that needs a case.
   `target` (stitches), `count`, `rowTarget` and `rowHistory` (rows mode).
 - `preferences`: a single `app` row with `currentProjectId`, `paused` and `textScale`.
 
-Pause is stored per project (`projects.paused`, Dexie v4), so pausing one labor never locks another.
+Pause is stored per project (`projects.paused`), so pausing one labor never locks another.
 
 In rows mode, `count` is the stitches of the current row and `rowHistory` stores the stitches
 of each finished row, so the current row number is `rowHistory.length + 1` and "Quitar uno" at
@@ -85,15 +85,11 @@ ignored, and every finished row offers "Deshacer" for a few seconds. The pure ru
 
 IDs are UUIDs so a future backup/import or sync can merge data without collisions.
 
-### Migrations
+### Schema
 
-- v1: `projects`, `threads` (colors), `preferences`.
-- v2: adds `parts` and copies every thread into it; projects become `embroidery`.
-- v3: drops `threads`.
-- v4: moves `paused` from preferences to each project.
-
-The IndexedDB database keeps its original name (`mi-bastidor`) so installs made before the
-rename keep their data. `src/data/repository.test.ts` covers the v1 → v3 upgrade.
+One Dexie version so far (`cuentapuntos` database, v1). While the app is in development the
+schema may be reset; once it is in real use, every change must add a new Dexie version with an
+`.upgrade()` and a test that opens data written by the previous version.
 
 ### Progress rules
 

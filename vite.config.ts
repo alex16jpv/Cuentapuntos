@@ -20,8 +20,8 @@ export default defineConfig({
       },
       manifest: {
         id: '/',
-        name: 'Mis Labores',
-        short_name: 'Mis Labores',
+        name: 'Cuentapuntos',
+        short_name: 'Cuentapuntos',
         description: 'Cuenta puntos, vueltas y colores de tus labores: bordado, ganchillo y punto.',
         lang: 'es',
         dir: 'ltr',

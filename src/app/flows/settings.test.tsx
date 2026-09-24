@@ -21,6 +21,6 @@ describe('settings', () => {
       'true',
     );
     expect((await getPreferences()).textScale).toBe('extra');
-    expect(localStorage.getItem('mis-labores:text-scale')).toBe('extra');
+    expect(localStorage.getItem('cuentapuntos:text-scale')).toBe('extra');
   });
 });

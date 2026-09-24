@@ -1,4 +1,4 @@
-const EVENT = 'mis-labores:write-error';
+const EVENT = 'cuentapuntos:write-error';
 
 export function reportWriteError(error: unknown): void {
   console.error(error);

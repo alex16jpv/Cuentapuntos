@@ -1,4 +1,4 @@
-# Mis Labores
+# Cuentapuntos
 
 Offline-first PWA (React + TypeScript + Vite + Dexie). Read `docs/ARCHITECTURE.md` before
 changing structure or data.

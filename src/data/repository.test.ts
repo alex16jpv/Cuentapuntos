@@ -1,6 +1,5 @@
-import Dexie from 'dexie';
 import { describe, expect, it } from 'vitest';
-import { BastidorDB, db } from './db';
+import { db } from './db';
 import {
   addPart,
   addParts,
@@ -146,89 +145,6 @@ describe('parts', () => {
     await db.projects.update(projectId, { updatedAt: 0 });
     await updatePart(id, { count: 5 });
     expect((await db.projects.get(projectId))?.updatedAt).toBeGreaterThan(0);
-  });
-});
-
-describe('migration from v1', () => {
-  it('turns threads into embroidery parts and keeps the selection', async () => {
-    const name = 'migration-test';
-    const v1 = new Dexie(name);
-    v1.version(1).stores({
-      projects: 'id, updatedAt',
-      threads: 'id, projectId, [projectId+createdAt]',
-      preferences: 'id',
-    });
-    await v1.table('projects').add({
-      id: 'p1',
-      name: 'Jardín',
-      target: null,
-      activeThreadId: 't1',
-      createdAt: 1,
-      updatedAt: 1,
-    });
-    await v1.table('threads').add({
-      id: 't1',
-      projectId: 'p1',
-      name: 'Rojo',
-      hex: '#C72B3B',
-      code: '321',
-      target: 2400,
-      count: 1248,
-      createdAt: 1,
-    });
-    await v1.table('preferences').add({ id: 'app', currentProjectId: 'p1', paused: true });
-    v1.close();
-
-    const v3 = new BastidorDB(name);
-    expect(await v3.projects.get('p1')).toMatchObject({
-      technique: 'embroidery',
-      activePartId: 't1',
-      paused: true,
-    });
-    expect(await v3.projects.get('p1')).not.toHaveProperty('activeThreadId');
-    expect(await v3.parts.get('t1')).toMatchObject({
-      count: 1248,
-      rowHistory: [],
-      rowTarget: null,
-    });
-    const prefs = await v3.preferences.get('app');
-    expect(prefs).toMatchObject({ currentProjectId: 'p1', textScale: 'normal' });
-    expect(prefs).not.toHaveProperty('paused');
-    expect(v3.tables.map((t) => t.name).sort()).toEqual(['parts', 'preferences', 'projects']);
-    await v3.delete();
-  });
-});
-
-describe('migration edge cases', () => {
-  it('works without a preferences row and with several projects', async () => {
-    const name = 'migration-edge';
-    const v1 = new Dexie(name);
-    v1.version(1).stores({
-      projects: 'id, updatedAt',
-      threads: 'id, projectId, [projectId+createdAt]',
-      preferences: 'id',
-    });
-    await v1.table('projects').bulkAdd([
-      { id: 'a', name: 'A', target: 100, activeThreadId: null, createdAt: 1, updatedAt: 1 },
-      { id: 'b', name: 'B', target: null, activeThreadId: 'tb', createdAt: 2, updatedAt: 2 },
-    ]);
-    await v1.table('threads').add({
-      id: 'tb',
-      projectId: 'b',
-      name: 'Azul',
-      hex: '#1E4A9C',
-      code: null,
-      target: null,
-      count: 3,
-      createdAt: 1,
-    });
-    v1.close();
-
-    const upgraded = new BastidorDB(name);
-    expect(await upgraded.projects.get('a')).toMatchObject({ activePartId: null, paused: false });
-    expect(await upgraded.projects.get('b')).toMatchObject({ activePartId: 'tb', paused: false });
-    expect(await upgraded.preferences.count()).toBe(0);
-    await upgraded.delete();
   });
 });
 
