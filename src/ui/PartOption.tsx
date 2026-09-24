@@ -24,17 +24,19 @@ export function PartOption({
 }: PartOptionProps) {
   const toneClass = tone === 'default' ? undefined : styles[tone];
   return (
-    <button
-      type="button"
-      className={[styles.option, toneClass, className].filter(Boolean).join(' ')}
-      {...rest}
-    >
-      <PartBadge hex={hex} technique={technique} size={40} />
-      <span className={styles.text}>
-        <span className={styles.name}>{name}</span>
-        {detail && <span className={styles.detail}>{detail}</span>}
-      </span>
-      {action && <span className={styles.action}>{action}</span>}
-    </button>
+    <div className={styles.frame}>
+      <button
+        type="button"
+        className={[styles.option, toneClass, className].filter(Boolean).join(' ')}
+        {...rest}
+      >
+        <PartBadge hex={hex} technique={technique} size={40} />
+        <span className={styles.text}>
+          <span className={styles.name}>{name}</span>
+          {detail && <span className={styles.detail}>{detail}</span>}
+        </span>
+        {action && <span className={styles.action}>{action}</span>}
+      </button>
+    </div>
   );
 }

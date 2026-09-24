@@ -74,6 +74,7 @@
 }
 
 .tapArea {
+  container: tap / inline-size;
   position: relative;
   padding: 10px 16px;
   flex-grow: 1;
@@ -160,8 +161,8 @@
 
 .notice {
   position: absolute;
-  left: 28px;
-  right: 28px;
+  left: 24px;
+  right: 24px;
   bottom: 20px;
   min-height: 56px;
   padding: 6px 6px 6px 16px;
@@ -181,6 +182,7 @@
 
 .noticeText {
   flex: 1;
+  min-width: 0;
   font-size: 1.0625rem;
   font-weight: 700;
 }
@@ -205,6 +207,20 @@
   font-weight: 700;
   color: var(--color-success);
   text-align: center;
+}
+
+@container tap (max-width: 320px) {
+  .notice > svg {
+    display: none;
+  }
+
+  .noticeText {
+    font-size: 0.9375rem;
+  }
+
+  .noticeUndo {
+    padding: 0 8px;
+  }
 }
 
 @keyframes pulse {
@@ -343,7 +359,7 @@
   }
 
   .plus {
-    font-size: 3.5rem;
+    font-size: 2.75rem;
   }
 
   .eyebrow {
@@ -371,6 +387,55 @@
   .finishRow,
   .controls {
     padding-bottom: 8px;
+  }
+
+  .finishRow {
+    padding-top: 8px;
+  }
+
+  .projectName {
+    font-size: 1.375rem;
+  }
+
+  .tapCount {
+    font-size: 1.0625rem;
+  }
+
+  .tapCount strong {
+    font-size: 1.25rem;
+  }
+
+  .tap {
+    gap: 4px;
+  }
+}
+
+@media (max-height: 600px) {
+  .count {
+    font-size: clamp(2.75rem, 10dvh, 4rem);
+  }
+
+  .rowSuffix {
+    display: none;
+  }
+
+  .tapArea {
+    min-height: 72px;
+    padding-block: 4px;
+  }
+
+  .plus {
+    font-size: 2.25rem;
+  }
+
+  .tap {
+    gap: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .controls svg {
+    display: none;
   }
 }
 

@@ -30,7 +30,8 @@
 
 .name,
 .detail {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .name {
@@ -48,4 +49,25 @@
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--color-accent);
+}
+
+.frame {
+  container-type: inline-size;
+}
+
+@container (max-width: 260px) {
+  .option {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    row-gap: 4px;
+  }
+
+  .text {
+    flex-basis: calc(100% - 56px);
+  }
+
+  .action {
+    width: 100%;
+    padding-left: 54px;
+  }
 }

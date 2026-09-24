@@ -139,8 +139,8 @@ function Counter({ workspace, part }: { workspace: Workspace; part: Part }) {
                     <span className={styles.tapCount} aria-hidden="true">
                       <strong key={part.count} className={styles.pulse}>
                         {stitchesLabel(part.count)}
-                      </strong>{' '}
-                      en esta {row.one}
+                      </strong>
+                      <span className={styles.rowSuffix}> en esta {row.one}</span>
                     </span>
                   ) : (
                     <span className={styles.tapHint}>{technique.tapHint}</span>
